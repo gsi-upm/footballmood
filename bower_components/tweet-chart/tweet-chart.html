@@ -1,0 +1,244 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+
+<dom-module id="tweet-chart">
+
+<style is="custom-style">
+  @import url("../../styles/app-theme.html");
+</style>
+
+<link rel="import" type="css" href="tweet-chart.css">
+
+  <template>
+
+    <!-- Shadow DOM -->
+    <paper-material elevation="1">
+        <div class="top-bar">
+            <iron-icon icon="{{icon}}"></iron-icon>
+            <span>{{title}}</span>
+        </div>
+        <template is="dom-repeat" items="{{data}}" as="tweet"> 
+          <div class$="{{checkSentiment(tweet.sentiment)}}">
+            <img src={{checkSource(tweet.name)}} style="width: 60px"></br>
+            <span class="text">{{tweet.text}}</span></br>
+            <span style="font-weight: bold">{{tweet.name}}</span></br>
+            <span>{{tweet.user}}</span></br>
+          </div>
+        </template>
+        <div style="width:100%; clear: both"></div>
+    </paper-material>
+
+  </template>
+
+  <script>
+    var filtered = false;
+
+    Polymer({
+
+      is: 'tweet-chart',
+
+      properties: {
+
+        data: {
+            type: Array,
+            value: [] //default value for data array.
+        },
+
+        icon: {
+          type: String,
+          value: "face"
+        },
+
+        title: {
+          type: String,
+          value: "List of different tweets"
+        },
+
+        brand: {
+          type: String,
+          value: "Undefined"
+        },
+
+        query: {
+          type: String,
+          observer: '_queryChanged'
+        },
+
+        index: {
+          type: String
+        },
+
+        subindex: {
+          type: String
+        },
+
+        fields: {
+          type: Array,
+          value: function() { return []; }
+        },
+
+        field: {
+          type: String
+        },
+
+        host: {
+          type: String
+        },
+
+        param: {
+          type: String,
+          notify: true
+        },
+
+        filters: {
+          type: Array,
+          notify: true,
+          value: function() { return []; }
+        }
+      },
+
+      observers: [
+      '_filtersChange(filters.*)'
+      ],
+
+      ready: function() {   
+        this.field ? this.queryDefault() : undefined
+      },
+
+      queryDefault: function() {
+        var client = new $.es.Client({
+          hosts: this.host
+        });
+        var that = this
+        client.search({
+        // undocumented params are appended to the query string
+        index: this.index,
+        type: this.subindex,
+        body: {
+          size: 10,
+          query: {
+            match_all: {}
+          }
+        }
+        }).then(function (resp) {
+          var hits = resp.hits.hits;
+          var results = []
+          hits.forEach(function(entry) {
+            results.push(entry._source);
+          });
+          that.data = results;
+          console.log(that.data);
+        });
+      },
+
+      queryChange: function(value) {
+          var client = new $.es.Client({
+            hosts: this.host
+          });
+            var that = this
+          client.search({
+            // undocumented params are appended to the query string
+            index: this.index,
+            type: this.subindex,
+            body: {
+              size: 10,
+              query: {
+                multi_match:{
+                  query: this.query,
+                  fields: this.fields
+                }
+              }
+            }
+          }).then(function (resp) {
+            var hits = resp.hits.hits;
+            var results = []
+            hits.forEach(function(entry) {
+              results.push(entry._source);
+            });
+            that.data = results
+          });
+        },
+
+        /** Fired when a search is made.
+         *
+         * @event query-change
+         * @param {Object} detail
+         * @param {Object} detail.query The search string.
+         */
+         _queryChanged: function() {
+          this.query ? this.queryChange(this.query) : this.queryDefault();
+        },
+
+        _filtersChange: function() {
+          if(filtered){
+            var client = new $.es.Client({
+              hosts: this.host
+            });
+
+            var that = this
+            client.search({
+            // undocumented params are appended to the query string
+            index: this.index,
+            type: this.subindex,
+            body: {
+              size: 10,
+              query: {
+                filtered: {
+                  filter: {
+                    bool: {
+                      must: this.filters,
+                    }
+                  }
+                }
+              }
+            }
+          }).then(function (resp) {
+            var hits = resp.hits.hits;
+            var results = []
+            hits.forEach(function(entry) {
+              results.push(entry._source);
+            });
+            that.data = results;
+          });
+        }
+      },
+
+      checkSentiment: function(sentiment) {
+        if (sentiment == "Positive")
+          return "tweet positive"
+        else if (sentiment == "Negative")
+          return "tweet negative"
+        else 
+          return "tweet neutral"
+      },
+
+      checkSource: function(source) {
+        if(source.indexOf("Vodafone") > -1 || source.indexOf("vodafone") > -1 )
+          return "http://www.vodafone.com/etc/vodafone-simplicity/img/vodafone-logo.png"
+        else if(source.indexOf("Santander") > -1)
+          return "http://www.bolsamania.com/mejorescreditos/wp-content/uploads/2014/07/logosantander1.jpg"
+        else if(source.indexOf("Telefónica") > -1 || source.indexOf("Movistar") > -1)
+          return "https://www.telefonica.com/telefonica-theme/images/dFront/modules/mod_footer/logo_telefonica_azul.png"
+        else if (source.indexOf("Ono") > -1 || source.indexOf("ono") > -1 || source.indexOf("ONO") > -1)
+          return "http://www.tadproducciones.com/images/portfolio/ono-logo.png"
+        else if (source.indexOf("LG") > -1)
+          return "http://sointecdecostarica.com/images/Logo_LG.png"
+        else if (source.indexOf("Iberdrola") > -1) 
+          return "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/Iberdrola_logo.svg/1280px-Iberdrola_logo.svg.png"
+        else if (source.indexOf("iPhone") > -1 || source.indexOf("aapl") > -1 || source.indexOf("AAPL") > -1 || source.indexOf("Apple") > -1)
+          return "http://vignette2.wikia.nocookie.net/antfarm/images/c/cc/Apple_logo_black.svg.png/revision/latest?cb=20121119220642"
+        else if (source.indexOf("GOOG") > -1 || source.indexOf("goog") > -1 || source.indexOf("Google") > -1)
+          return "http://demos.gsi.dit.upm.es/ftt/img/entities/Google.png"
+        else if (source.indexOf("AMZN") > -1 || source.indexOf("amzn") > -1 || source.indexOf("Amazon") > -1 || source.indexOf("Kindle") > -1)
+          return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Amazon.com-Logo.svg/2000px-Amazon.com-Logo.svg.png"
+        else if (source.indexOf("Microsoft") > -1)
+          return "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_(2012).svg/2000px-Microsoft_logo_(2012).svg.png"
+        else 
+          return "http://vignette2.wikia.nocookie.net/logopedia/images/5/59/Empty.png/revision/latest?cb=20100412122939"
+      }
+
+    });
+  </script>
+
+</dom-module>
