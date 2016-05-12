@@ -5,10 +5,9 @@ svg {
   ;
 }
 #grafica_campo{
-  background: url("fondo_campo.jpg");
+  background: url("esquina-campo.jpg");
   background-size: cover;
-  background-position-y: -153px;
-  border-radius: 57px;
+  background-position-y: -44px;
 }
 
 .axis path,

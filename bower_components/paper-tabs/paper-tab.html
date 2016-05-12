@@ -71,15 +71,18 @@ Custom property | Description | Default
       transition: opacity 0.1s cubic-bezier(0.4, 0.0, 1, 1);
 
       @apply(--paper-tab-content);
+      font-size: 18px;
     }
 
     :host(:not(.iron-selected)) > .tab-content {
       opacity: 0.8;
+      font-size: 18px;
     }
 
     :host(:focus) .tab-content {
       opacity: 1;
       font-weight: 700;
+      font-size: 18px;
     }
 
     #ink {
@@ -95,6 +98,7 @@ Custom property | Description | Default
       flex: 1;
       -webkit-flex-basis: 0.000000001px;
       flex-basis: 0.000000001px;
+      font-size: 18px;
     }
 
   </style>
