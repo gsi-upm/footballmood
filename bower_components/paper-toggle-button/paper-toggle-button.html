@@ -52,7 +52,9 @@ Custom property | Description | Default
       <div id="toggleButton" class="toggle-button">
         <paper-ripple id="ink" class="toggle-ink circle" recenters></paper-ripple>
       </div>
+      
     </div>
+     <span style="position:relative; left: 50px; top: -16px;">{{texto}}</span>
 
   </template>
 
@@ -71,6 +73,11 @@ Custom property | Description | Default
       },
 
       properties: {
+
+         texto: {
+          type: String,
+          value: "Emotion Map / Emotion Radar"
+         },
         /**
          * Fired when the checked state changes due to user interaction.
          *
@@ -95,6 +102,7 @@ Custom property | Description | Default
           notify: true,
           observer: '_checkedChanged'
         },
+       
 
         /**
          * If true, the button toggles the active state with each tap or press

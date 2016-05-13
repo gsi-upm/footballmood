@@ -2,7 +2,7 @@
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="liquid-fluid-d3.html">
 
-<dom-module id="trending-chart">
+<dom-module id="ranking-players">
 
 <style is="custom-style">
   @import url("../../styles/app-theme.html");
@@ -18,13 +18,20 @@
     </div>
 
   <template is="dom-repeat" items="{{datos}}" as="entity"> 
-    <div style="width:20%; float:left">
+    <div style="width:100%; float:left; margin-top: 6px;">
+      <img src={{checkSource(entity.entity)}} style="height: 30px; display: inline-block; margin:10px">
+      <h4 style="display: inline-block;">{{entity.entity}}</h4>
       <liquid-fluid-d3
         value="{{entity.value}}"
         title = "{{entity.entity}}"
-        id="{{entity.id}}">
-      </liquid-fluid-d3>
-   <img src={{checkSource(entity.entity)}} style="height: 30px; display: block; margin:10px auto"></div>
+        id="{{entity.id}}"
+        color="{{color}}"
+        maintextcolor="{{maintextcolor}}"
+        textcolorfill="{{textcolorfill}}">
+      </liquid-fluid-d3></div>
+      
+      
+   
   </template>
   <div style="width:100%; clear: both"></div>
   </paper-material>
@@ -34,13 +41,22 @@
 
     Polymer({
 
-      is: 'trending-chart',
+      is: 'ranking-players',
 
        properties: {
 
         datos: {
             type: Array,
             value: [] //default value for data array.
+        },
+        color:{
+          type: String
+        },
+        maintextcolor:{
+                type: String
+        },
+        textcolorfill:{
+                type: String
         },
 
         icon: {
@@ -49,8 +65,7 @@
           },
 
         title: {
-            type: String,
-            value: "Trending Chart"
+            type: String
           },
         index: {
             type: String
@@ -149,20 +164,20 @@
             
             var total = 0;
        
-          //  console.log(that.data.children[0].children[0].name);
-            //console.log(that.data.children.length);
+            console.log(that.data.children[0].children[0].name);
+            console.log(that.data.children.length);
             //console.log(that.data.children[0].children[0].children.length);
             for(var i = 0; i < that.data.children.length; i++){
-           // console.log(that.data.children[i].children[0].children.length);
+            console.log(that.data.children[i].children[0].children.length);
             total += that.data.children[i].children[0].children.length;
             }
-            //console.log(total);
+            console.log(total);
             var vod = Math.round((that.data.children[0].children[0].children.length / total)*100);
             var apl = Math.round((that.data.children[1].children[0].children.length / total)*100);
             var gog = Math.round((that.data.children[2].children[0].children.length / total)*100);
             var tel = Math.round((that.data.children[3].children[0].children.length / total)*100);
             var amz = Math.round((that.data.children[4].children[0].children.length / total)*100);
-           // console.log(vod);
+            console.log(vod);
 
             var resultados = []
 
@@ -253,20 +268,20 @@
                 
                 var total = 0;
            
-              //  console.log(that.data.children[0].children[0].name);
-                //console.log(that.data.children.length);
+                console.log(that.data.children[0].children[0].name);
+                console.log(that.data.children.length);
                 //console.log(that.data.children[0].children[0].children.length);
                 for(var i = 0; i < that.data.children.length; i++){
-               // console.log(that.data.children[i].children[0].children.length);
+                console.log(that.data.children[i].children[0].children.length);
                 total += that.data.children[i].children[0].children.length;
                 }
-               // console.log(total);
+                console.log(total);
                 var vod = Math.round((that.data.children[0].children[0].children.length / total)*100);
                 var apl = Math.round((that.data.children[1].children[0].children.length / total)*100);
                 var gog = Math.round((that.data.children[2].children[0].children.length / total)*100);
                 var tel = Math.round((that.data.children[3].children[0].children.length / total)*100);
                 var amz = Math.round((that.data.children[4].children[0].children.length / total)*100);
-               // console.log(vod);
+                console.log(vod);
 
                 var resultados = []
 
@@ -276,7 +291,7 @@
                 resultados.push({"entity": that.data.children[3].name, "value": tel, "id":4});
                 resultados.push({"entity": that.data.children[4].name, "value": amz, "id":5});
 
-              //  console.log(resultados);
+                console.log(resultados);
 
                 that.datos = resultados;
               });
@@ -293,27 +308,27 @@
             },
         checkSource: function(source) {
           if(source.indexOf("Vodafone") > -1 || source.indexOf("vodafone") > -1 )
-            return "http://www.vodafone.com/etc/vodafone-simplicity/img/vodafone-logo.png"
+            return "/images/players/ATM/griezmann.jpg"
           else if(source.indexOf("Santander") > -1)
-            return "http://www.bolsamania.com/mejorescreditos/wp-content/uploads/2014/07/logosantander1.jpg"
+            return "/images/players/ATM/griezmann.jpg"
           else if(source.indexOf("Telefónica") > -1 || source.indexOf("Movistar") > -1)
-            return "https://www.telefonica.com/telefonica-theme/images/dFront/modules/mod_footer/logo_telefonica_azul.png"
+            return "/images/players/ATM/griezmann.jpg"
           else if (source.indexOf("Ono") > -1 || source.indexOf("ono") > -1 || source.indexOf("ONO") > -1)
-            return "http://www.tadproducciones.com/images/portfolio/ono-logo.png"
+            return "/images/players/ATM/griezmann.jpg"
           else if (source.indexOf("LG") > -1)
-            return "http://sointecdecostarica.com/images/Logo_LG.png"
+            return "/images/players/ATM/griezmann.jpg"
           else if (source.indexOf("Iberdrola") > -1) 
-            return "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/Iberdrola_logo.svg/1280px-Iberdrola_logo.svg.png"
+            return "/images/players/ATM/griezmann.jpg"
           else if (source.indexOf("iPhone") > -1 || source.indexOf("aapl") > -1 || source.indexOf("AAPL") > -1 || source.indexOf("Apple") > -1)
-            return "http://vignette2.wikia.nocookie.net/antfarm/images/c/cc/Apple_logo_black.svg.png/revision/latest?cb=20121119220642"
+            return "/images/players/ATM/griezmann.jpg"
           else if (source.indexOf("GOOG") > -1 || source.indexOf("goog") > -1 || source.indexOf("Google") > -1)
-            return "http://demos.gsi.dit.upm.es/ftt/img/entities/Google.png"
+            return "/images/players/ATM/griezmann.jpg"
           else if (source.indexOf("AMZN") > -1 || source.indexOf("amzn") > -1 || source.indexOf("Amazon") > -1 || source.indexOf("Kindle") > -1)
-            return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Amazon.com-Logo.svg/2000px-Amazon.com-Logo.svg.png"
+            return "/images/players/ATM/griezmann.jpg"
           else if (source.indexOf("Microsoft") > -1)
-            return "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_(2012).svg/2000px-Microsoft_logo_(2012).svg.png"
+            return "/images/players/ATM/griezmann.jpg"
           else 
-            return "http://vignette2.wikia.nocookie.net/logopedia/images/5/59/Empty.png/revision/latest?cb=20100412122939"
+            return "/images/players/ATM/griezmann.jpg"
         }
 
     });

@@ -20,10 +20,10 @@
         </div>
         <template is="dom-repeat" items="{{data}}" as="tweet"> 
           <div class$="{{checkSentiment(tweet.sentiment)}}">
-            <img src={{checkSource(tweet.name)}} style="width: 60px"></br>
-            <span class="text">{{tweet.text}}</span></br>
-            <span style="font-weight: bold">{{tweet.name}}</span></br>
-            <span>{{tweet.user}}</span></br>
+            <!--<img src={{checkSource(tweet.name)}} style="width: 60px"></br>-->
+            <span class="text">{{tweet.text}}</span>
+            <!--<span style="font-weight: bold">{{tweet.name}}</span></br>-->
+            <span>{{tweet.user}}</span>
           </div>
         </template>
         <div style="width:100%; clear: both"></div>
@@ -116,7 +116,7 @@
         index: this.index,
         type: this.subindex,
         body: {
-          size: 10,
+          size: 5,
           query: {
             match_all: {}
           }
@@ -142,7 +142,7 @@
             index: this.index,
             type: this.subindex,
             body: {
-              size: 10,
+              size: 5,
               query: {
                 multi_match:{
                   query: this.query,
@@ -182,7 +182,7 @@
             index: this.index,
             type: this.subindex,
             body: {
-              size: 10,
+              size: 5,
               query: {
                 filtered: {
                   filter: {

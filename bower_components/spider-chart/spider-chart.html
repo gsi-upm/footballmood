@@ -87,7 +87,7 @@
 
 	  
 	  _draw: function(id, d, options){
-	  	console.log("entro funcion _draw");
+	  	//console.log("entro funcion _draw");
 		  var cfg = {
 			 radius: 5,
 			 w: 600,
@@ -99,8 +99,8 @@
 			 radians: 2 * Math.PI,
 			 opacityArea: 0.5,
 			 ToRight: 5,
-			 TranslateX: 80,
-			 TranslateY: 30,
+			 TranslateX: 130,
+			 TranslateY: 100,
 			 ExtraWidthX: 100,
 			 ExtraWidthY: 100,
 			 color: d3.scale.category10()
@@ -123,7 +123,7 @@
 			var g = d3.select(id)
 					.append("svg")
 					.attr("width", cfg.w+cfg.ExtraWidthX)
-					.attr("height", cfg.h+cfg.ExtraWidthY)
+					.attr("height", 430)
 					.append("g")
 					.attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")");
 					;
@@ -189,7 +189,7 @@
 				.style("font-size", "11px")
 				.attr("text-anchor", "middle")
 				.attr("dy", "1.5em")
-				.attr("transform", function(d, i){return "translate(0, -10)"})
+				.attr("transform", function(d, i){return "translate(0, -20)"})
 				.attr("x", function(d, i){return cfg.w/2*(1-cfg.factorLegend*Math.sin(i*cfg.radians/total))-60*Math.sin(i*cfg.radians/total);})
 				.attr("y", function(d, i){return cfg.h/2*(1-Math.cos(i*cfg.radians/total))-20*Math.cos(i*cfg.radians/total);});
 
@@ -546,7 +546,7 @@
 			.attr("class", "legend1")
 			.attr("height", 100)
 			.attr("width", 200)
-			.attr('transform', 'translate(90,20)') 
+			.attr('transform', 'translate(170,100)') 
 			.attr("y", 10);
 			//Create colour squares
 			legend.selectAll('rect')

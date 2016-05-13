@@ -64,7 +64,7 @@
 			      .style('text-anchor', 'end')
 			      .text('Time (s)');
 
-			  var legend = svg.append('g')
+			  /*var legend = svg.append('g')
 			    .attr('class', 'legend')
 			    .attr('transform', 'translate(' + (chartWidth - legendWidth) + ', 0)');
 
@@ -104,7 +104,7 @@
 			  legend.append('text')
 			    .attr('x', 115)
 			    .attr('y', 85)
-			    .text('Median');
+			    .text('Median');*/
 			}
 
 			function drawPaths (svg, data, x, y) {
@@ -217,7 +217,7 @@
 			}
 
 			function makeChart (data, markers) {
-			  var svgWidth  = 500,
+			  var svgWidth  = 550,
 			      svgHeight = 300,
 			      margin = { top: 20, right: 20, bottom: 40, left: 40 },
 			      chartWidth  = svgWidth  - margin.left - margin.right,
@@ -285,6 +285,7 @@
 
 			    makeChart(data, markers);
 			  });
+			//makeChart(data);
 			});
       }
 

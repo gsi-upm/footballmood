@@ -121,8 +121,8 @@
 	  
 	  _draw: function(data){
 	  	
-	  	var width = 960,
-		    height = 500;
+	  	var width = 600,
+		    height = 430;
 		var svg = d3.select(this.$.spain).append("svg")
 		.attr("width", width)
 		.attr("height", height);
@@ -132,10 +132,10 @@
 		    var subunits = topojson.feature(es, es.objects.subunits);
 		    var provinces = topojson.feature(es, es.objects.provinces);
 		    var projection = d3.geo.mercator()
-		    .scale(2300)
+		    .scale(1900)
 		    .center([0, 40])
 		    /*.translate([360, height / 2]);*/
-		    .translate([550, height / 2]);
+		    .translate([360, 200]);
 		    console.log(es.objects.places.features);
 		    var path = d3.geo.path()
 		    .projection(projection);
@@ -198,7 +198,7 @@
            	svg.selectAll(".place-label").data([0]).enter()
            		.append("text")
            		.attr("class", "tweet-details")
-           		.attr('transform','translate(15,473)')
+           		.attr('transform','translate(15,397)')
            		.text(data[i].text);
            	}
 		    /*svg.selectAll(".place-label")
@@ -216,8 +216,12 @@
 
 	  	
 	  },
+	   _queryChanged: function() {
+          this.query ? this.queryChange(this.query) : this.queryDefault();
+        },
 
 	  queryDefault: function() {
+	  	d3.select(this.$.spain).select("svg").remove();
         var client = new $.es.Client({
           hosts: this.host
         });
@@ -271,6 +275,67 @@
         	}
         	}
         	console.log(sitios);
+          that._draw(sitios);
+        });
+	      
+	    },
+	    queryChange: function() {
+	    d3.select(this.$.spain).select("svg").remove();
+        var client = new $.es.Client({
+          hosts: this.host
+        });
+        var that = this
+        client.search({
+        // undocumented params are appended to the query string
+        index: this.index,
+        type: this.subindex,
+        body: {
+          size: 1000,
+          query: {
+        	"bool" : {
+	            "must" : [ { "match": { "user.location" : "Madrid Barcelona Valencia" } },
+	            		   { "match": { "text": this.query   }}
+	               
+	           			 ]
+        			 }
+    			},
+             	
+       	  fields: [ "user.location" , "text" ] 
+         	
+          
+        }
+        }).then(function (resp) {
+          var hits = resp.hits.hits;
+          var results = []
+          hits.forEach(function(entry) {
+            results.push(entry.fields);
+          });
+        	console.log("engendro"+results.length);
+        	function filterbylocation(obj){
+        		if ('user.location' in obj != undefined ){
+        			return true
+        		}else{
+        			return false
+        		}
+        	}
+        	resultsclean = results.filter(filterbylocation);
+        	console.log(resultsclean);
+        	var sitios = []
+        	for(var i = 0; i<resultsclean.length; i++){
+        	console.log(resultsclean[i]);
+        	if((resultsclean[i]["user.location"][0]).indexOf("Barcelona")>-1){
+        		sitios.push({city:"Barcelona", sentiment: "Sad", coordinates:[], text: resultsclean[i]["text"][0]});
+        	}
+        	if((resultsclean[i]["user.location"][0]).indexOf("Madrid")>-1){
+        		sitios.push({city:"Madrid", sentiment: "Happy", coordinates:[], text: resultsclean[i]["text"][0]});
+        	}
+        	if((resultsclean[i]["user.location"][0]).indexOf("Valencia")>-1){
+        		sitios.push({city:"Valencia", sentiment: "Angry", coordinates:[], text: resultsclean[i]["text"][0]});
+        	}
+        	}
+        	console.log(sitios);
+
+
           that._draw(sitios);
         });
 	      
