@@ -128,7 +128,7 @@
 		.attr("height", height);
 		d3.json("es.json", function(error, es) {
 		    if (error) return console.error(error);
-		    console.log(es);
+		    //console.log(es);
 		    var subunits = topojson.feature(es, es.objects.subunits);
 		    var provinces = topojson.feature(es, es.objects.provinces);
 		    var projection = d3.geo.mercator()
@@ -136,7 +136,7 @@
 		    .center([0, 40])
 		    /*.translate([360, height / 2]);*/
 		    .translate([360, 200]);
-		    console.log(es.objects.places.features);
+		    //console.log(es.objects.places.features);
 		    var path = d3.geo.path()
 		    .projection(projection);
 		    svg.selectAll(".province")
@@ -162,8 +162,8 @@
 		      .datum(topojson.feature(es, es.objects.places))
 		      .attr("d", path)
 		      .attr("class", "place");*/
-		    console.log(topojson.feature(es, es.objects.places));
-		    console.log(data);
+		    //console.log(topojson.feature(es, es.objects.places));
+		    //console.log(data);
 		    for (var i=0; i<data.length;i++){
 		    	if (data[i].city == "Barcelona"){
 		    		data[i].coordinates = [1.6809586232530336+(Math.random()*0.4),(41.38505768239248)+(Math.random()*0.4)]
@@ -184,7 +184,7 @@
 		    		data[i].sentiment = "crying-face.png"
 		    	}		    		
 		    }
-		    console.log(data);
+		    //console.log(data);
 		    var faceIcon = svg.selectAll('image').data([0]);
 		    for (var i=0; i<data.length;i++){
 		    faceIcon.enter()
@@ -251,7 +251,7 @@
           hits.forEach(function(entry) {
             results.push(entry.fields);
           });
-        	console.log(results);
+        	//console.log(results);
         	function filterbylocation(obj){
         		if ('user.location' in obj != undefined ){
         			return true
@@ -260,10 +260,10 @@
         		}
         	}
         	resultsclean = results.filter(filterbylocation);
-        	console.log(resultsclean);
+        	//console.log(resultsclean);
         	var sitios = []
         	for(var i = 0; i<resultsclean.length; i++){
-        	console.log(resultsclean[i]);
+        	//console.log(resultsclean[i]);
         	if((resultsclean[i]["user.location"][0]).indexOf("Barcelona")>-1){
         		sitios.push({city:"Barcelona", sentiment: "Sad", coordinates:[], text: resultsclean[i]["text"][0]});
         	}
@@ -274,7 +274,7 @@
         		sitios.push({city:"Valencia", sentiment: "Angry", coordinates:[], text: resultsclean[i]["text"][0]});
         	}
         	}
-        	console.log(sitios);
+        	//console.log(sitios);
           that._draw(sitios);
         });
 	      
@@ -310,7 +310,7 @@
           hits.forEach(function(entry) {
             results.push(entry.fields);
           });
-        	console.log("engendro"+results.length);
+        	//console.log("engendro"+results.length);
         	function filterbylocation(obj){
         		if ('user.location' in obj != undefined ){
         			return true
@@ -319,10 +319,10 @@
         		}
         	}
         	resultsclean = results.filter(filterbylocation);
-        	console.log(resultsclean);
+        	//console.log(resultsclean);
         	var sitios = []
         	for(var i = 0; i<resultsclean.length; i++){
-        	console.log(resultsclean[i]);
+        	//console.log(resultsclean[i]);
         	if((resultsclean[i]["user.location"][0]).indexOf("Barcelona")>-1){
         		sitios.push({city:"Barcelona", sentiment: "Sad", coordinates:[], text: resultsclean[i]["text"][0]});
         	}
@@ -333,7 +333,7 @@
         		sitios.push({city:"Valencia", sentiment: "Angry", coordinates:[], text: resultsclean[i]["text"][0]});
         	}
         	}
-        	console.log(sitios);
+        	//console.log(sitios);
 
 
           that._draw(sitios);

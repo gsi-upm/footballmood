@@ -1,0 +1,97 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+
+<dom-module id="top-teams">
+
+<style is="custom-style">
+  @import url("../../styles/app-theme.html");
+</style>
+<link rel="import" type="css" href="trending-chart.css">
+
+ <template>
+
+  <div class="col-md-6" style="left: 0;">
+           <!--  <top-teams>
+            </top-teams> -->
+            <paper-material elevation="1">
+            <div class="top-bar">
+                <iron-icon icon="{{icon}}"></iron-icon>
+                <span>{{title}}</span>
+            </div>
+            <div class="team-details">
+            <img src="{{image}}" align="center" style="height: 120px; margin:15px 26%">
+            <h4 style="text-align: center; padding: 6px; background-color: {{color}}; width: 80%; margin: 0 auto; border-radius: 6px;">{{teamname}}</h4>
+            </div>
+  </div>
+      
+   
+  </template>
+  <div style="width:100%; clear: both"></div>
+  </paper-material>
+
+ </template>
+ <script>
+
+    Polymer({
+
+      is: 'top-teams',
+
+       properties: {
+
+        datos: {
+            type: Array,
+            value: [] //default value for data array.
+        },
+        color:{
+          type: String,
+          value: "#319b31"
+        },
+        maintextcolor:{
+                type: String
+        },
+        textcolorfill:{
+                type: String
+        },
+
+        icon: {
+            type: String,
+            value: "trending-up"
+        },
+
+        title: {
+            type: String
+          },
+        index: {
+            type: String
+          },
+
+        subindex: {
+            type: String
+          },
+
+        extraId: {
+            type: String
+          },
+        query: {
+          type: String,
+          observer: '_queryChanged'
+        },
+        teamname: {
+          type: String
+        },
+        image: {
+          type: String
+        },
+
+        fields: {
+            type: Array,
+            value: function() { return []; }
+        }
+      },
+      ready: function(){
+
+      }
+
+    });
+ </script>
+</dom-module>
