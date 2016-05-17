@@ -45,7 +45,7 @@ class FetchDataTask(luigi.Task):
         today = datetime.date.today()
 	#file = luigi.Parameter()
     #with open(file) as f:
-        with open('/home/alberto/Documentos/test.json') as f:
+        with open('test.json') as f:
             j = json.load(f)
         for i in j:
 			i["_id"] = i["id"]
