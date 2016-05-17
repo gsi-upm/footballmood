@@ -20,7 +20,10 @@
             </div>
             <div class="player-details">
             <img src="{{image}}" align="center" style="height: 120px; margin:15px 26%">
-            <h4 style="text-align: center; padding: 6px; background-color: {{color}}; width: 80%; margin: 0 auto; border-radius: 6px;">{{playername}}</h4>
+            <h4 style="text-align: center; padding: 6px; width: 80%; margin: 0 auto; border-radius: 6px;">{{playername}}</h4>
+            <div style="text-align: center;"><h5 style="color: #319b31; padding: 5px; display:inline-block;">Positive:</h5><h4 style="color: #319b31; padding: 5px;display:inline-block;">{{numpositive}}</h4><h5 style="color: #319b31; padding: 5px;display:inline-block;">tweets</h5></div>
+            <div style="text-align: center;">
+            <h5 style="color: #D90007; padding: 5px; display:inline-block;">Negative:</h5><h4 style="color: #D90007; padding: 5px; display:inline-block;">{{numnegative}}</h4><h5 style="color: #D90007; padding: 5px; display:inline-block;">tweets</h5></div>
             </div>
   </div>
       
@@ -60,6 +63,12 @@
         title: {
             type: String
           },
+        numpositive: {
+            type: String
+        },
+        numnegative: {
+            type: String
+        },
         index: {
             type: String
           },

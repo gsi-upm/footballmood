@@ -56,13 +56,38 @@
 
 		.place-label {
 		  font-size: 0.5em;
-		}	
+		}
+		#help1{
+			background: rgba(255, 255, 255, 0.6);
+			color: #000;
+		}
+		#help2{
+			background: rgba(255, 255, 255, 0.6);
+			color: #000;
+		}
+		#help3{
+			background: rgba(255, 255, 255, 0.6);
+			color: #000;
+		}
+		#help1 p{
+			color: #000;
+		}
+		#help2 p{
+			color: #000;
+		}
+		#help3 p{
+			color: #000;
+		}
 	</style>
 
   	<paper-material elevation="1">
   	<div class="top-bar">
         <iron-icon icon="{{icon}}"></iron-icon>
         <span>{{title}}</span>
+        <paper-icon-button icon="icons:help-outline" on-tap="_showhelp" style="padding: 0px;"></paper-icon-button>
+        <div id="{{idhelp}}" style="display: none; position: absolute; padding: 10px;">
+        	<p>This widget allow us to locate tweets in the Spain map, provinces are coloured with the dominant sentiment.</p>
+        </div>
     </div>
   	<div id="marco">
  	 <div id="spain"></div>
@@ -91,6 +116,9 @@
 	      subindex: {
 	          type: String
 	        },
+	        idhelp: {
+	        	type: String
+	        },
 
 	      extraId: {
 	          type: String
@@ -118,6 +146,28 @@
       	
       	
       	
+	  },
+	  _showhelp: function(){
+	  	 console.log("disparo");
+
+       if(document.getElementById("help1").style.display == "none"){
+       	var elemento1 = document.getElementById("help1");
+       	var elemento2 = document.getElementById("help2");
+       	var elemento3 = document.getElementById("help3");
+        elemento1.style.display = 'initial';
+        elemento2.style.display = 'initial';
+        elemento3.style.display = 'initial';
+       }
+       else{
+       	var elemento1 = document.getElementById("help1");
+       	var elemento2 = document.getElementById("help2");
+       	var elemento3 = document.getElementById("help3");
+        elemento1.style.display = 'none';
+        elemento2.style.display = 'none';
+        elemento3.style.display = 'none';
+       }
+
+
 	  },
 	   d3geoconicConformalSpain: function(){
 	    	function n(n){var o=n[0],i=n[1];return t=null,e(o,i),t||r(o,i),t}var t,e,r,o=d3.geo.conicConformal().center([2,37.5]),i=d3.geo.conicConformal().center([-9.6,26.4]),a={point:function(n,e){t=[n,e]}};return n.invert=function(n){var t=o.scale(),e=o.translate(),r=(n[0]-e[0])/t,a=(n[1]-e[1])/t;return(a>=-.10779&&.067673>a&&r>=-.1866&&.0255>r?i:o).invert(n)},n.stream=function(n){var t=o.stream(n),e=i.stream(n);return{point:function(n,r){t.point(n,r),e.point(n,r)},sphere:function(){t.sphere(),e.sphere()},lineStart:function(){t.lineStart(),e.lineStart()},lineEnd:function(){t.lineEnd(),e.lineEnd()},polygonStart:function(){t.polygonStart(),e.polygonStart()},polygonEnd:function(){t.polygonEnd(),e.polygonEnd()}}},n.precision=function(t){return arguments.length?(o.precision(t),i.precision(t),n):o.precision()},n.scale=function(t){return arguments.length?(o.scale(t),i.scale(t),n.translate(o.translate())):o.scale()},n.translate=function(t){if(!arguments.length)return o.translate();var c=o.scale(),l=+t[0],s=+t[1];return e=o.translate(t).clipExtent([[l-.1291*c,s-.1683*c],[l+.0309*c,s+.0517*c]]).stream(a).point,r=i.translate([l-.067*c,s+.081*c]).clipExtent([[l-.1866*c,s+.02557*c],[l-.10779*c,s+.06767*c]]).stream(a).point,n},n.getCompositionBorders=function(){var n=o([-13,35.3]),t=o([-6.4,34]);return"M"+n[0]+" "+n[1]+"L"+t[0]+" "+n[1]+"L"+t[0]+" "+t[1]},n.scale(2500)
@@ -173,11 +223,9 @@
 		    //console.log(topojson.feature(es, es.objects.places));
 		    //console.log(data);
 		   
-		    var width = 960,
-			    height = 500;
-			var colores = {"PP":"#03a9e7","PSOE":"#ff2f2e","IU":"#149f27","UPyD":"#d64b8c","CiU":"#024c97","Amaiur":"#b0d2e9",
-			"PNV":"#0f7c2f","ERC":"#f9d43f","Compromís":"#faddaa","Podemos":"#82398a","Ciudadanos":"#e28535","Otros":"#e8e8e8"};
-			var sentcolor = {"neutral": "grey", "positive": "#03a9e7", "negative": "#149f27"};
+		    var width = 540,
+			    height = 430;
+			var sentcolor = {"neutral": "#ddd", "positive": "green", "negative": "red"};
 			var projection = this.d3geoconicConformalSpain()
 
 			var path = d3.geo.path()
@@ -249,38 +297,102 @@
 			for (var i=0; i<data.length;i++){
 				if (data[i].city == "Valencia"){
 					console.log(data[i].sentiment);
-					sentiment0 = data[i].sentiment;
-					citysentiment.Valencia = {sentimento: "positive"};
+					var positive = 0;
+					var negative = 0;
+					var neutral = 0;
+					if(data[i].sentiment == "positive") positive++
+					if(data[i].sentiment == "negative") negative++
+					if(data[i].sentiment == "neutral") neutral++
+						console.log("negative:"+negative+"positive:"+positive+"neutral:"+neutral)
+
+					if(positive > negative) citysentiment.Valencia = {sentimento: "positive"};
+					if(neutral > positive) citysentiment.Valencia = {sentimento: "neutral"};
+					if(negative > positive) citysentiment.Valencia = {sentimento: "negative"}
 				}
 				if (data[i].city == "Barcelona"){
 					console.log(data[i].sentiment);
-					sentiment0 = data[i].sentiment;
-					citysentiment.Barcelona = {sentimento: "negative"};
+					var positive = 0;
+					var negative = 0;
+					var neutral = 0;
+					if(data[i].sentiment == "positive") positive++
+					if(data[i].sentiment == "negative") negative++
+					if(data[i].sentiment == "neutral") neutral++
+						console.log("negative:"+negative+"positive:"+positive+"neutral:"+neutral)
+
+					if(positive > negative) citysentiment.Barcelona = {sentimento: "positive"};
+					if(neutral > positive) citysentiment.Barcelona = {sentimento: "neutral"};
+					if(negative > positive) citysentiment.Barcelona = {sentimento: "negative"}
+				}
+				if (data[i].city == "Madrid"){
+					console.log(data[i].sentiment);
+					var positive = 0;
+					var negative = 0;
+					var neutral = 0;
+					if(data[i].sentiment == "positive") positive++
+					if(data[i].sentiment == "negative") negative++
+					if(data[i].sentiment == "neutral") neutral++
+						console.log("negative:"+negative+"positive:"+positive+"neutral:"+neutral)
+
+					if(positive > negative) citysentiment.Madrid = {sentimento: "positive"};
+					if(neutral > positive) citysentiment.Madrid = {sentimento: "neutral"};
+					if(negative > positive) citysentiment.Madrid = {sentimento: "negative"}
+				}
+				if (data[i].city == "Sevilla"){
+					console.log(data[i].sentiment);
+					var positive = 0;
+					var negative = 0;
+					var neutral = 0;
+					if(data[i].sentiment == "positive") positive++
+					if(data[i].sentiment == "negative") negative++
+					if(data[i].sentiment == "neutral") neutral++
+						console.log("negative:"+negative+"positive:"+positive+"neutral:"+neutral)
+
+					if(positive > negative) citysentiment.Sevilla = {sentimento: "positive"};
+					if(neutral > positive) citysentiment.Sevilla = {sentimento: "neutral"};
+					if(negative > positive) citysentiment.Sevilla = {sentimento: "negative"}
+				}
+				if (data[i].city == "Galicia"){
+					console.log(data[i].sentiment);
+					var positive = 0;
+					var negative = 0;
+					var neutral = 0;
+					if(data[i].sentiment == "positive") positive++
+					if(data[i].sentiment == "negative") negative++
+					if(data[i].sentiment == "neutral") neutral++
+						console.log("negative:"+negative+"positive:"+positive+"neutral:"+neutral)
+
+					if(positive > negative) citysentiment.Lugo = {sentimento: "positive"};
+					if(neutral > positive) citysentiment.Lugo = {sentimento: "neutral"};
+					if(negative > positive) citysentiment.Lugo = {sentimento: "negative"}
 				}
 			}
 			console.log(citysentiment);
 			  d3.json("provincias.json", function(error, provincias) {
-			  d3.json("https://cdn.rawgit.com/rveciana/5919944/raw//resultados.json", function(error, resultados) {
 			  var land = topojson.feature(provincias, provincias.objects.provincias);
 			  svg.selectAll("path")
 			      .data(land.features)
 			      .enter()
 			      .append("path")
 			      .attr("d", path)
+			      .attr('transform','translate(-20,0)')
+			      //.attr("class",function(d){ return citysentiment[d.properties.nombre][0]})
 			      .attr("fill", function(d){
 
 			       // var ganador = Object.keys(resultados[d.properties.nombre])[0];
 			  			       
 			       // return colores[ganador];
 			       //console.log(citysentiment[d.properties.nombre].sentimiento)
-
+			       console.log(citysentiment[d.properties.nombre].sentimento);
 			       //var sentiment = Object.keys(citysentiment[d.properties.nombre])[1];
-			       var sentimentcolor = citysentiment[d.properties.nombre].sentimiento;
+			       /*var sentimentcolor = citysentiment[d.properties.nombre].sentimiento;
 			       console.log(sentimentcolor)
 			       console.log(sentcolor[sentimentcolor])
 			       //console.log(sentiment)
-			       return sentcolor[sentimentcolor];
-
+			       return sentcolor[sentimentcolor];*/
+			       //return "grey";
+			       if(citysentiment[d.properties.nombre].sentimento == undefined){
+			       	return "grey"
+			       }else return sentcolor[citysentiment[d.properties.nombre].sentimento]
 			       });
 			      /*.on("mouseover", function(d) {
 			            d3.select(this)
@@ -316,7 +428,6 @@
 			    
 			        that._drawfaces(data);
 			  });
-			  });
 				
 			},
 
@@ -326,13 +437,13 @@
 
 				for (var i=0; i<data.length;i++){
 			    	if (data[i].city == "Barcelona"){
-			    		data[i].coordinates = [1.6809586232530336+(Math.random()*0.4),(41.38505768239248)+(Math.random()*0.4)]
+			    		data[i].coordinates = [1.3009586232530336+(Math.random()*0.4),(41.38505768239248)+(Math.random()*0.4)]
 			    	}
 			    	if (data[i].city == "Madrid"){
-			    		data[i].coordinates = [-4.1842519049503775+(Math.random()*0.4),40.401350962116155+(Math.random()*0.4)]
+			    		data[i].coordinates = [-5.1842519049503775+(Math.random()*0.4),40.401350962116155+(Math.random()*0.4)]
 			    	}
 			    	if (data[i].city == "Valencia"){
-			    		data[i].coordinates = [-0.9027949018342696+(Math.random()*0.4),39.487101366588405+(Math.random()*0.4)]
+			    		data[i].coordinates = [-1.9027949018342696+(Math.random()*0.4),39.487101366588405+(Math.random()*0.4)]
 			    	}
 			    	if (data[i].sentiment == "neutral"){
 			    		data[i].image = "angry-face.png"
@@ -357,7 +468,7 @@
 	           	svg.selectAll(".place-label").data([0]).enter()
 	           		.append("text")
 	           		.attr("class", "tweet-details")
-	           		.attr('transform','translate(15,397)')
+	           		.attr('transform','translate(15,410)')
 	           		.text(data[i].text);
 	           	}
 
@@ -394,7 +505,7 @@
         index: this.index,
         type: this.subindex,
         body: {
-          size: 1,
+          size: 500,
           query: {
         	"bool" : {
 	            "must" : [ 
@@ -453,7 +564,7 @@
         index: this.index,
         type: this.subindex,
         body: {
-          size: 1,
+          size: 20,
           query: {
         	"bool" : {
 	            "must" : [ { "match": { "user.location" : "Madrid Barcelona Valencia" } },

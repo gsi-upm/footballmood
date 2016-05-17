@@ -119,6 +119,7 @@
       <paper-tab>Events</paper-tab>
       <paper-tab>Teams</paper-tab>
       <paper-tab>Players</paper-tab>
+      <paper-tab>About</paper-tab>
   </paper-tabs>
 
   <iron-pages selected="{{selected}}">
@@ -132,6 +133,7 @@
     </div>
     <div class="col-md-3" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
+              idhelp="help4"
               index="ftten"
               subindex="entities"
               title="Positive Players"
@@ -145,6 +147,7 @@
     </div>
     <div class="col-md-3" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
+              idhelp="help5"
               index="ftten"
               subindex="entities"
               title="Negative Players"
@@ -156,28 +159,33 @@
           </ranking-players>
 
     </div>
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px; float:left">
-
-      <spain-chart
+    <div class="col-md-6" style="display: inline-block; margin-bottom: 40px; float:left; padding-bottom: 40px;">
+      <acidjs-xtabs width="100%" height="485" selectedtab="0" name="tabs">
+          <acidjs-xtabs-pane label="Emotion Map" hint="Emotion Map">
+               <spain-chart
                 id="spain"
-                index="twitter_atlfcb"
+                idhelp="help1"
+                index="twitter_football"
                 subindex="tweet"
                 query="{{query}}"
                 fields='["user.location"]'>
-      </spain-chart>
-      <spider-chart
-              id="radar"
-              style="display:none;"
-              index="ftten"
-              subindex="entities"
-              query="{{query}}"
-              fields='["user", "sentiment", "name", "text"]'>
-      </spider-chart>
-
-      <paper-toggle-button on-tap="_changestate" text="{{texto}}"></paper-toggle-button>
+              </spain-chart>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Emotion Radar" hint="Emotion Radar">
+               <spider-chart
+                id="radar"
+                index="ftten"
+                subindex="entities"
+                query="{{query}}"
+                fields='["user", "sentiment", "name", "text"]'>
+              </spider-chart>
+          </acidjs-xtabs-pane>
+      </acidjs-xtabs>
+     
+      <!--<paper-toggle-button on-tap="_changestate" text="{{texto}}"></paper-toggle-button> -->
 
     </div>
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px; height: 461px;">
+    <div class="col-md-6" style="display: inline-block; margin-top: 38px; margin-bottom: 20px; height: 461px;">
       <tweet-chart
                 query="{{query}}"
                 index="ftten"
@@ -194,18 +202,6 @@
       </tweet-chart>
     </div>
 
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
-
-    </div>
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
-       <number-tweet-chart
-              index="twitter_atlfcb"
-              subindex="tweet"
-              fields='["text"]'
-              query="{{query}}">
-       </number-tweet-chart>
-
-    </div>
 
     </div>
     <!-- TEAMS -->
@@ -229,6 +225,7 @@
      </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
+              idhelp="help6"
               index="ftten"
               subindex="entities"
               title="Team Ranking"
@@ -242,23 +239,29 @@
     </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px; float:left">
 
-      <spain-chart
-                id="spainteam"
-                index="twitter_atlfcb"
+      <acidjs-xtabs width="100%" height="485" selectedtab="0" name="tabs1">
+          <acidjs-xtabs-pane label="Emotion Map" hint="Emotion Map">
+               <spain-chart
+                id="spain"
+                idhelp="help2"
+                index="twitter_football"
                 subindex="tweet"
                 query="{{query}}"
                 fields='["user.location"]'>
-      </spain-chart>
-      <spider-chart
-              id="radarteam"
-              style="display:none;"
-              index="ftten"
-              subindex="entities"
-              query="{{query}}"
-              fields='["user", "sentiment", "name", "text"]'>
-      </spider-chart>
+              </spain-chart>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Emotion Radar" hint="Emotion Radar">
+               <spider-chart
+                id="radar"
+                index="ftten"
+                subindex="entities"
+                query="{{query}}"
+                fields='["user", "sentiment", "name", "text"]'>
+              </spider-chart>
+          </acidjs-xtabs-pane>
+      </acidjs-xtabs>
 
-      <paper-toggle-button on-tap="_changestateteams" text="{{texto}}"></paper-toggle-button>
+      <!-- <paper-toggle-button on-tap="_changestateteams" text="{{texto}}"></paper-toggle-button> -->
 
     </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px; height: 461px;">
@@ -278,39 +281,29 @@
       </tweet-chart>
     </div>
 
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
-
-    </div>
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
-       <number-tweet-chart
-              index="twitter_atlfcb"
-              subindex="tweet"
-              fields='["text"]'
-              query="{{query}}">
-       </number-tweet-chart>
-
-    </div>
-
     </div>
     <!-- PLAYERS -->
     <div>
       <div class="col-md-6" style="display: inline-block; margin-bottom: 10px;">
             <top-players
               playername="Saúl"
-              color="#319b31"
+              numpositive="1800"
+              numnegative="152"
               image="/images/players/ATM/saul.jpg"
               title="Most positive player">
             </top-players>
          
          <top-players
               playername="Dani Alves"
-              color="#D90007"
+              numpositive="500"
+              numnegative="4650"
               image="/images/players/FCB/alves.jpg"
               title="Most negative player">
             </top-players>
      </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
+              idhelp="help7"
               index="ftten"
               subindex="entities"
               title="Player Ranking"
@@ -324,23 +317,29 @@
     </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px; float:left">
 
-      <spain-chart
-                id="spainplayers"
-                index="twitter_atlfcb"
+      <acidjs-xtabs width="100%" height="485" selectedtab="0" name="tabs2">
+          <acidjs-xtabs-pane label="Emotion Map" hint="Emotion Map">
+               <spain-chart
+                id="spain"
+                idhelp="help3"
+                index="twitter_football"
                 subindex="tweet"
                 query="{{query}}"
                 fields='["user.location"]'>
-      </spain-chart>
-      <spider-chart
-              id="radarplayers"
-              style="display:none;"
-              index="ftten"
-              subindex="entities"
-              query="{{query}}"
-              fields='["user", "sentiment", "name", "text"]'>
-      </spider-chart>
+              </spain-chart>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Emotion Radar" hint="Emotion Radar">
+               <spider-chart
+                id="radar"
+                index="ftten"
+                subindex="entities"
+                query="{{query}}"
+                fields='["user", "sentiment", "name", "text"]'>
+              </spider-chart>
+          </acidjs-xtabs-pane>
+      </acidjs-xtabs>
 
-      <paper-toggle-button on-tap="_changestateplayers" text="{{texto}}"></paper-toggle-button>
+     <!-- <paper-toggle-button on-tap="_changestateplayers" text="{{texto}}"></paper-toggle-button> -->
 
     </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px; height: 461px;">
@@ -360,19 +359,102 @@
       </tweet-chart>
     </div>
 
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
-
     </div>
-    <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
-       <number-tweet-chart
-              index="twitter_atlfcb"
-              subindex="tweet"
-              fields='["text"]'
-              query="{{query}}">
-       </number-tweet-chart>
-
-    </div>
-
+    <!-- ABOUT -->
+    <div>Hello World
+      <acidjs-xtabs width="100%" height="200" selectedtab="0" name="my-x-tab-01">
+          <acidjs-xtabs-pane label="Home" hint="Go to our homepage">
+              <h3>Home</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+                  sed do eiusmod tempor incididunt ut labore et dolore 
+                  magna aliqua. Ut enim ad minim veniam, quis nostrud 
+                  exercitation ullamco laboris nisi ut aliquip ex ea 
+                  commodo consequat. Duis aute irure dolor in reprehenderit 
+                  in voluptate velit esse cillum dolore eu fugiat nulla 
+                  pariatur. Excepteur sint occaecat cupidatat non proident, 
+                  sunt in culpa qui officia deserunt mollit anim id est 
+                  laborum.</p>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="About Us" hint="More info about us">
+              <h3>About Us</h3>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit 
+                  voluptatem accusantium doloremque laudantium, totam rem 
+                  aperiam, eaque ipsa quae ab illo inventore veritatis et 
+                  quasi architecto beatae vitae dicta sunt explicabo. Nemo 
+                  enim ipsam voluptatem quia voluptas sit aspernatur aut odit 
+                  aut fugit, sed quia consequuntur magni dolores eos qui ratione 
+                  voluptatem sequi nesciunt. Neque porro quisquam est, qui 
+                  dolorem ipsum quia dolor sit amet, consectetur, adipisci 
+                  velit, sed quia non numquam eius modi tempora incidunt ut 
+                  labore et dolore magnam aliquam quaerat voluptatem. Ut 
+                  enim ad minima veniam, quis nostrum exercitationem ullam 
+                  corporis suscipit laboriosam, nisi ut aliquid ex ea commodi 
+                  consequatur? Quis autem vel eum iure reprehenderit qui 
+                  in ea voluptate velit esse quam nihil molestiae consequatur, 
+                  vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Downloads" hint="Visit our downloads section">
+              <h3>Downloads</h3>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus 
+                  qui blanditiis praesentium voluptatum deleniti atque 
+                  corrupti quos dolores et quas molestias excepturi sint 
+                  occaecati cupiditate non provident, similique sunt in 
+                  culpa qui officia deserunt mollitia animi, id est laborum 
+                  et dolorum fuga. Et harum quidem rerum facilis est et 
+                  expedita distinctio. Nam libero tempore, cum soluta nobis 
+                  est eligendi optio cumque nihil impedit quo minus id 
+                  quod maxime placeat facere possimus, omnis voluptas 
+                  assumenda est, omnis dolor repellendus. Temporibus autem 
+                  quibusdam et aut officiis debitis aut rerum necessitatibus 
+                  saepe eveniet ut et voluptates repudiandae sint et molestiae 
+                  non recusandae. Itaque earum rerum hic tenetur a sapiente 
+                  delectus, ut aut reiciendis voluptatibus maiores alias 
+                  consequatur aut perferendis doloribus asperiores repellat.</p>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Contact Us" hint="Give us a shout">
+              <h3>Contact Us</h3>
+              <p>Howdy?</p>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Disabled Tab" hint="Give us a shout" enabled="false">
+              <h3>Disabled Tab</h3>
+              <p>Just a disabled tab.</p>
+          </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Yet Another Tab" hint="And Yet Another Tab">
+              <h3>Disabled Tab</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+              sed do eiusmod tempor incididunt ut labore et dolore magna 
+              aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+              ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+              Duis aute irure dolor in reprehenderit in voluptate velit 
+              esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+              occaecat cupidatat non proident, sunt in culpa qui officia 
+              deserunt mollit anim id est laborum.</p>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit 
+              voluptatem accusantium doloremque laudantium, totam rem 
+              aperiam, eaque ipsa quae ab illo inventore veritatis et 
+              quasi architecto beatae vitae dicta sunt explicabo. Nemo 
+              enim ipsam voluptatem quia voluptas sit aspernatur aut 
+              odit aut fugit, sed quia consequuntur magni dolores eos 
+              qui ratione voluptatem sequi nesciunt. Neque porro quisquam 
+              est, qui dolorem ipsum quia dolor sit amet, consectetur, 
+              adipisci velit, sed quia non numquam eius modi tempora 
+              incidunt ut labore et dolore magnam aliquam quaerat voluptatem. 
+              Ut enim ad minima veniam, quis nostrum exercitationem 
+              ullam corporis suscipit laboriosam, nisi ut aliquid ex ea 
+              commodi consequatur? Quis autem vel eum iure reprehenderit 
+              qui in ea voluptate velit esse quam nihil molestiae consequatur, 
+              vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+              sed do eiusmod tempor incididunt ut labore et dolore magna 
+              aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+              ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+              Duis aute irure dolor in reprehenderit in voluptate velit 
+              esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+              occaecat cupidatat non proident, sunt in culpa qui officia 
+              deserunt mollit anim id est laborum.</p>
+          </acidjs-xtabs-pane>
+      </acidjs-xtabs>
+       
     </div>
       
   </template>

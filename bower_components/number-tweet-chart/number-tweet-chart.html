@@ -9,7 +9,7 @@
 	<template>
 		<div class="wid-social twitter">
                     <div class="social-icon">
-                        <i class="fa fa-twitter text-light icon-xlg pull-right"></i>
+                        <i class="fa fa-twitter text-light icon-xlg"></i>
                     </div>
                     <div class="social-info">
                         <h3 id="number" class="number_counter bold count text-light start_timer counted">{{numberCalc}}</h3>
@@ -17,10 +17,10 @@
                       
                     </div>
                 
-                <div class="progress">
+                <!--<div class="progress">
 		              <div class="progress-bar progress-bar-name" id="barprogress" style="width: 50%"></div>
-		        </div>
-		            <span class="progress-description">Total Selected</span>
+		            </div>
+		            <span class="progress-description">Total Selected</span>-->
 		          
           </div>
           
@@ -175,7 +175,7 @@
                 hosts: this.host
               });
               var idNum = this.$.number;
-              var idBar = this.$.barprogress;
+              //var idBar = this.$.barprogress;
               client.search({
                 // undocumented params are appended to the query string
                 index: this.index,
@@ -190,7 +190,7 @@
                 numberMax = resp.hits.total;
                 var num = resp.hits.total > 999 ? (resp.hits.total/1000).toFixed(1) + 'k' : resp.hits.total
                 idNum.innerHTML = num;
-                idBar.style.width = "100%";
+                //idBar.style.width = "100%";
                 filtered = true;
               });
             },
@@ -200,7 +200,7 @@
                 hosts: this.host
               });
               var idNum = this.$.number;
-              var idBar = this.$.barprogress;
+              //var idBar = this.$.barprogress;
               var object = this.object;
               client.search({
                 // undocumented params are appended to the query string
@@ -231,7 +231,7 @@
                   });
                   var aux = numberMax > 999 ? (numberMax/1000).toFixed(1) + 'k' : numberMax
                   idNum.innerHTML = aux;
-                  idBar.style.width = "100%";
+                 //idBar.style.width = "100%";
                   filtered = true;
               });
             },

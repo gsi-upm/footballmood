@@ -61,6 +61,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="elements/AcidJs.XTabs/lib/x-tag-components.js"></script>
+
   <!-- endbuild -->
 
   <!-- will be replaced with elements/elements.vulcanized.html -->
@@ -83,7 +85,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="tall">
-          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button><span style="font-size: 25px;">Dashboard</span>
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button><span style="font-size: 25px;">Football Analysis</span>
+          <span class="corpus"><number-tweet-chart
+              index="twitter_football"
+              subindex="tweet"
+              fields='["text"]'
+              query="{{query}}">
+          </number-tweet-chart></span>
           <span class="flex"><material-search search-value="{{query}}"></material-search></span>
 
           <!-- Toolbar icons -->

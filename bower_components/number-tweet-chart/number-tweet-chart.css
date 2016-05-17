@@ -1,10 +1,10 @@
 .twitter {
-    background-color: #00aced !important;
+    background-color: transparent !important;
     color: #ffffff !important;
     }
     .wid-social {
             /* display: inline-block; */
-            width: 60%;
+            width: 100%;
             padding: 15px 15px 15px 15px;
             /* margin: 0px 0 1em 0; */
             margin: 0 auto;
@@ -27,5 +27,9 @@
       font-weight: 300;
     }
     .icon-xlg {
-      font-size: 70px;
+      font-size: 40px;
+      display: inline-block;
+    }
+    .social-icon, .social-info, .number-tweet-chart{
+      display: inline-block;
     }

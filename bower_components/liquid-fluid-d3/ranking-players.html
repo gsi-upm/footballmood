@@ -6,6 +6,22 @@
 
 <style is="custom-style">
   @import url("../../styles/app-theme.html");
+  #help4{
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+    #help5{
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+    #help6{
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+    #help7{
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
 </style>
 <link rel="import" type="css" href="trending-chart.css">
 
@@ -15,6 +31,10 @@
     <div class="top-bar">
         <iron-icon icon="{{icon}}"></iron-icon>
         <span>{{title}}</span>
+        <paper-icon-button icon="icons:help-outline" on-tap="_showhelp" style="padding: 0px;"></paper-icon-button>
+        <div id="{{idhelp}}" style="display: none; position: absolute; padding: 10px; left: 0; top: 35px;">
+          <p>This widget allow us to create rankings to show the most popular, or most impopular players or teams.</p>
+        </div>
     </div>
 
   <template is="dom-repeat" items="{{datos}}" as="entity"> 
@@ -51,6 +71,9 @@
         },
         color:{
           type: String
+        },
+        idhelp: {
+            type: String
         },
         maintextcolor:{
                 type: String
@@ -91,6 +114,32 @@
       ready: function(){
           this.queryDefault();
       },
+       _showhelp: function(){
+       console.log("disparo");
+
+       if(document.getElementById("help4").style.display == "none"){
+        var elemento1 = document.getElementById("help4");
+        var elemento2 = document.getElementById("help5");
+        var elemento3 = document.getElementById("help6");
+        var elemento4 = document.getElementById("help7");
+        elemento1.style.display = 'initial';
+        elemento2.style.display = 'initial';
+        elemento3.style.display = 'initial';
+        elemento4.style.display = 'initial';
+       }
+       else{
+        var elemento1 = document.getElementById("help4");
+        var elemento2 = document.getElementById("help5");
+        var elemento3 = document.getElementById("help6");
+        var elemento4 = document.getElementById("help7");
+        elemento1.style.display = 'none';
+        elemento2.style.display = 'none';
+        elemento3.style.display = 'none';
+        elemento4.style.display = 'none';
+       }
+
+
+    },
       queryDefault: function() {
           var client = new $.es.Client({
             hosts: this.host
