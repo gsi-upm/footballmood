@@ -45,7 +45,7 @@ class FetchDataTask(luigi.Task):
         today = datetime.date.today()
 	#file = luigi.Parameter()
     #with open(file) as f:
-        with open('test.json') as f:
+        with open('datos.json') as f:
             j = json.load(f)
         for i in j:
 			i["_id"] = i["id"]
@@ -97,7 +97,7 @@ class SenpyTask(luigi.Task):
 		with self.input().open('r') as infile:
 			j = json.load(infile)
 			for i in j:
-				r = requests.get('http://senpy.cluster.gsi.dit.upm.es/api/?algo=sentiText&i=%s' % i["text"])
+				r = requests.get('http://senpy.cluster.gsi.dit.upm.es/api/?algo=sentiText&lang=es&i=%s' % i["text"])
 				response = r.content.decode('utf-8')
 				response_json = json.loads(response)
 				i["_id"] = i["id"]
