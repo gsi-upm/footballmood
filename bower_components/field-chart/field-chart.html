@@ -53,10 +53,47 @@
     Polymer({
 
       is: 'field-chart',
+      properties: {
+
+	      icon: {
+	          type: String,
+	          value: "trending-up"
+	        },
+
+	      index: {
+	          type: String
+	        },
+
+	      subindex: {
+	          type: String
+	        },
+	      idhelp: {
+	        	type: String
+	        },
+
+	      extraId: {
+	          type: String
+	        },
+
+	      fields: {
+	          type: Array,
+	          value: function() { return []; }
+	        },
+
+	      query: {
+	          type: String,
+	          observer: '_queryChanged'
+	        },
+
+	      title: {
+	          type: String,
+	          
+	        }
+	  },
 
       ready: function(){
       	
-      	this._draw();
+      	this.queryDefault();
 
       	
 	  },
@@ -305,7 +342,10 @@
 			  startTransitions(svg, chartWidth, chartHeight, rectClip, markers, x);
 			}
 
-			var parseDate  = d3.time.format('%Y-%m-%d').parse;
+			var parseDate  = d3.time.format('%Y%m%d').parse;
+
+
+
 			d3.json('data.json', function (error, rawData) {
 			  if (error) {
 			    console.error(error);
@@ -341,7 +381,86 @@
 			  });
 			//makeChart(data);
 			});
-      }
+      },
+       _queryChanged: function() {
+          this.query ? this.queryChange(this.query) : this.queryDefault();
+        },
+
+	  queryDefault: function() {
+	  
+        var client = new $.es.Client({
+          hosts: this.host
+        });
+        var that = this
+        client.search({
+        // undocumented params are appended to the query string
+        index: this.index,
+        type: this.subindex,
+        body: {
+          size: 100,
+          query: {
+        	match_all: {}
+    			},
+             	
+       	  fields: ["sentiment", "time"],
+       	  sort: {"time":"desc"}
+   			 
+             	
+         	
+          
+        }
+        }).then(function (resp) {
+          var hits = resp.hits.hits;
+          var results = []
+          hits.forEach(function(entry) {
+            results.push(entry.fields);
+          });
+        	console.log(results);
+        	var arrdatesent = [];
+        	for (var i=0; i<results.length;i++){
+        		console.log(results[i].time);
+        		if(results[i].time == results[i++].time){
+        			console.log("hola");
+        		}
+        	}
+        	//console.log(sitios);
+          //that._draw(sitios);
+        });
+	      
+	    },
+	    queryChange: function() {
+	    
+        var client = new $.es.Client({
+          hosts: this.host
+        });
+        var that = this
+        client.search({
+        // undocumented params are appended to the query string
+        index: this.index,
+        type: this.subindex,
+        body: {
+          size: 20,
+          query: {
+        	
+    			},
+         	
+          
+        }
+        }).then(function (resp) {
+          var hits = resp.hits.hits;
+          var results = []
+          hits.forEach(function(entry) {
+            results.push(entry.fields);
+          });
+        	//console.log("engendro"+results.length);
+        	
+        	//console.log(sitios);
+
+
+          //that._draw(sitios);
+        });
+	      
+	    }
 
      
 
