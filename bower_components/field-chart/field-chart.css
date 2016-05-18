@@ -4,6 +4,26 @@ svg {
   font: 14px 'Open Sans';
   ;
 }
+:host {
+  margin: 0;
+  padding: 0;
+  width: 400px;
+  height: 300px;
+}
+
+.top-bar{
+  width: 100%; 
+  background-color: #319b31; 
+  border-radius: 5px 5px 0 0; 
+  color: white; 
+  text-align: center; 
+  height: 35px; 
+  line-height: 35px;
+}
+
+.top-bar span {
+  vertical-align: middle;
+}
 #grafica_campo{
   background: url("esquina-campo.jpg");
   background-size: cover;

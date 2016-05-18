@@ -5,12 +5,44 @@
 
 <style is="custom-style">
   @import url("../../styles/app-theme.html");
+  		
+		#help11{
+			background: rgba(255, 255, 255, 0.6);
+			color: #000;
+		}
+		#help12{
+			background: rgba(255, 255, 255, 0.6);
+			color: #000;
+		}
+		#help13{
+			background: rgba(255, 255, 255, 0.6);
+			color: #000;
+		}
+		#help11 p{
+			color: #000;
+		}
+		#help12 p{
+			color: #000;
+		}
+		#help13 p{
+			color: #000;
+		}
+
 </style>
 <link rel="stylesheet" type="text/css" href="field-chart.css">
 
  <template>
 
+
   	<paper-material elevation="1">
+  	 <div class="top-bar">
+        <iron-icon icon="{{icon}}"></iron-icon>
+        <span>{{title}}</span>
+        <paper-icon-button icon="icons:help-outline" on-tap="_showhelp" style="padding: 0px;"></paper-icon-button>
+        <div id="{{idhelp}}" style="display: none; position: absolute; padding: 10px;">
+        	<p>This widget allow us to see sentiment evolution during a match.</p>
+        </div>
+     </div>
  	 <div id="grafica_campo"></div>
  	</paper-material>
 
@@ -27,6 +59,28 @@
       	this._draw();
 
       	
+	  },
+	  _showhelp: function(){
+	  	 console.log("disparo");
+
+       if(document.getElementById("help11").style.display == "none"){
+       	var elemento1 = document.getElementById("help11");
+       	var elemento2 = document.getElementById("help12");
+       	var elemento3 = document.getElementById("help13");
+        elemento1.style.display = 'initial';
+        elemento2.style.display = 'initial';
+        elemento3.style.display = 'initial';
+       }
+       else{
+       	var elemento1 = document.getElementById("help11");
+       	var elemento2 = document.getElementById("help12");
+       	var elemento3 = document.getElementById("help13");
+        elemento1.style.display = 'none';
+        elemento2.style.display = 'none';
+        elemento3.style.display = 'none';
+       }
+
+
 	  },
 
 	  _draw: function(){
@@ -218,7 +272,7 @@
 
 			function makeChart (data, markers) {
 			  var svgWidth  = 550,
-			      svgHeight = 300,
+			      svgHeight = 280,
 			      margin = { top: 20, right: 20, bottom: 40, left: 40 },
 			      chartWidth  = svgWidth  - margin.left - margin.right,
 			      chartHeight = svgHeight - margin.top  - margin.bottom;

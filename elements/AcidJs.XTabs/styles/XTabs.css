@@ -65,7 +65,7 @@ acidjs-xtabs acidjs-xtabs-pane
 acidjs-xtabs acidjs-xtabs-item > label
 {
     display: inline-block;
-    background: #0091c0;
+    background: rgb(159, 202, 159);
     line-height: 32px;
     padding: 0 18px;
     text-align: center;

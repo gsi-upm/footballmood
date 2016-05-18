@@ -125,9 +125,16 @@
   <iron-pages selected="{{selected}}">
   <!-- EVENTS -->
   <div>
+    <div class="row">
     <div class="col-md-6" style="display: inline-block; margin-bottom: 10px;">
           <div style="left: 0; margin-bottom: 20px;">
-            <field-chart>
+            <field-chart
+               idhelp="help11"
+               index="ftten"
+               subindex="entities"
+               title="Sentiment Evolution"
+               query="{{query}}"
+               fields='["user", "sentiment", "name", "text"]'>
             </field-chart>
           </div>
     </div>
@@ -159,6 +166,7 @@
           </ranking-players>
 
     </div>
+    </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 40px; float:left; padding-bottom: 40px;">
       <acidjs-xtabs width="100%" height="485" selectedtab="0" name="tabs">
           <acidjs-xtabs-pane label="Emotion Map" hint="Emotion Map">
@@ -175,6 +183,7 @@
                <spider-chart
                 id="radar"
                 index="ftten"
+                idhelp="help10"
                 subindex="entities"
                 query="{{query}}"
                 fields='["user", "sentiment", "name", "text"]'>
@@ -218,6 +227,7 @@
          <top-teams
               teamname="FC Barcelona"
               color="#D90007"
+              icon="trending-down"
               image="/images/players/FCB/fcb.jpg"
               title="Most negative team">
             </top-teams>
@@ -253,6 +263,7 @@
           <acidjs-xtabs-pane label="Emotion Radar" hint="Emotion Radar">
                <spider-chart
                 id="radar"
+                idhelp="help9"
                 index="ftten"
                 subindex="entities"
                 query="{{query}}"
@@ -297,6 +308,7 @@
               playername="Dani Alves"
               numpositive="500"
               numnegative="4650"
+              icon="trending-down"
               image="/images/players/FCB/alves.jpg"
               title="Most negative player">
             </top-players>
@@ -332,6 +344,7 @@
                <spider-chart
                 id="radar"
                 index="ftten"
+                idhelp="help8"
                 subindex="entities"
                 query="{{query}}"
                 fields='["user", "sentiment", "name", "text"]'>
@@ -362,98 +375,7 @@
     </div>
     <!-- ABOUT -->
     <div>Hello World
-      <acidjs-xtabs width="100%" height="200" selectedtab="0" name="my-x-tab-01">
-          <acidjs-xtabs-pane label="Home" hint="Go to our homepage">
-              <h3>Home</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-                  sed do eiusmod tempor incididunt ut labore et dolore 
-                  magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                  exercitation ullamco laboris nisi ut aliquip ex ea 
-                  commodo consequat. Duis aute irure dolor in reprehenderit 
-                  in voluptate velit esse cillum dolore eu fugiat nulla 
-                  pariatur. Excepteur sint occaecat cupidatat non proident, 
-                  sunt in culpa qui officia deserunt mollit anim id est 
-                  laborum.</p>
-          </acidjs-xtabs-pane>
-          <acidjs-xtabs-pane label="About Us" hint="More info about us">
-              <h3>About Us</h3>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit 
-                  voluptatem accusantium doloremque laudantium, totam rem 
-                  aperiam, eaque ipsa quae ab illo inventore veritatis et 
-                  quasi architecto beatae vitae dicta sunt explicabo. Nemo 
-                  enim ipsam voluptatem quia voluptas sit aspernatur aut odit 
-                  aut fugit, sed quia consequuntur magni dolores eos qui ratione 
-                  voluptatem sequi nesciunt. Neque porro quisquam est, qui 
-                  dolorem ipsum quia dolor sit amet, consectetur, adipisci 
-                  velit, sed quia non numquam eius modi tempora incidunt ut 
-                  labore et dolore magnam aliquam quaerat voluptatem. Ut 
-                  enim ad minima veniam, quis nostrum exercitationem ullam 
-                  corporis suscipit laboriosam, nisi ut aliquid ex ea commodi 
-                  consequatur? Quis autem vel eum iure reprehenderit qui 
-                  in ea voluptate velit esse quam nihil molestiae consequatur, 
-                  vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-          </acidjs-xtabs-pane>
-          <acidjs-xtabs-pane label="Downloads" hint="Visit our downloads section">
-              <h3>Downloads</h3>
-              <p>At vero eos et accusamus et iusto odio dignissimos ducimus 
-                  qui blanditiis praesentium voluptatum deleniti atque 
-                  corrupti quos dolores et quas molestias excepturi sint 
-                  occaecati cupiditate non provident, similique sunt in 
-                  culpa qui officia deserunt mollitia animi, id est laborum 
-                  et dolorum fuga. Et harum quidem rerum facilis est et 
-                  expedita distinctio. Nam libero tempore, cum soluta nobis 
-                  est eligendi optio cumque nihil impedit quo minus id 
-                  quod maxime placeat facere possimus, omnis voluptas 
-                  assumenda est, omnis dolor repellendus. Temporibus autem 
-                  quibusdam et aut officiis debitis aut rerum necessitatibus 
-                  saepe eveniet ut et voluptates repudiandae sint et molestiae 
-                  non recusandae. Itaque earum rerum hic tenetur a sapiente 
-                  delectus, ut aut reiciendis voluptatibus maiores alias 
-                  consequatur aut perferendis doloribus asperiores repellat.</p>
-          </acidjs-xtabs-pane>
-          <acidjs-xtabs-pane label="Contact Us" hint="Give us a shout">
-              <h3>Contact Us</h3>
-              <p>Howdy?</p>
-          </acidjs-xtabs-pane>
-          <acidjs-xtabs-pane label="Disabled Tab" hint="Give us a shout" enabled="false">
-              <h3>Disabled Tab</h3>
-              <p>Just a disabled tab.</p>
-          </acidjs-xtabs-pane>
-          <acidjs-xtabs-pane label="Yet Another Tab" hint="And Yet Another Tab">
-              <h3>Disabled Tab</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-              sed do eiusmod tempor incididunt ut labore et dolore magna 
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-              ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-              Duis aute irure dolor in reprehenderit in voluptate velit 
-              esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
-              occaecat cupidatat non proident, sunt in culpa qui officia 
-              deserunt mollit anim id est laborum.</p>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit 
-              voluptatem accusantium doloremque laudantium, totam rem 
-              aperiam, eaque ipsa quae ab illo inventore veritatis et 
-              quasi architecto beatae vitae dicta sunt explicabo. Nemo 
-              enim ipsam voluptatem quia voluptas sit aspernatur aut 
-              odit aut fugit, sed quia consequuntur magni dolores eos 
-              qui ratione voluptatem sequi nesciunt. Neque porro quisquam 
-              est, qui dolorem ipsum quia dolor sit amet, consectetur, 
-              adipisci velit, sed quia non numquam eius modi tempora 
-              incidunt ut labore et dolore magnam aliquam quaerat voluptatem. 
-              Ut enim ad minima veniam, quis nostrum exercitationem 
-              ullam corporis suscipit laboriosam, nisi ut aliquid ex ea 
-              commodi consequatur? Quis autem vel eum iure reprehenderit 
-              qui in ea voluptate velit esse quam nihil molestiae consequatur, 
-              vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-              sed do eiusmod tempor incididunt ut labore et dolore magna 
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-              ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-              Duis aute irure dolor in reprehenderit in voluptate velit 
-              esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
-              occaecat cupidatat non proident, sunt in culpa qui officia 
-              deserunt mollit anim id est laborum.</p>
-          </acidjs-xtabs-pane>
-      </acidjs-xtabs>
+
        
     </div>
       
