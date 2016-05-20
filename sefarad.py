@@ -101,7 +101,7 @@ class SenpyTask(luigi.Task):
 				response = r.content.decode('utf-8')
 				response_json = json.loads(response)
 				i["_id"] = i["id"]
-				i["analysis"] = response_json
+				#i["analysis"] = response_json
 				i["sentiment"] = response_json["entries"][0]["sentiments"][0]["marl:hasPolarity"]	
 				i["polarity"] = response_json["entries"][0]["sentiments"][0]["marl:polarityValue"]   
 				output.write(json.dumps(i))

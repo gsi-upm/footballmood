@@ -114,7 +114,7 @@
       	
 	  },
 	  _showhelp: function(){
-	  	 console.log("disparo");
+	  	// console.log("disparo");
 
        if(document.getElementById("help10").style.display == "none"){
        	var elemento1 = document.getElementById("help10");
@@ -168,7 +168,7 @@
 			var allAxis = (d[0].map(function(i, j){return i.axis}));
 			var total = allAxis.length;
 			var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
-			var Format = d3.format('%');
+			var Format = d3.format(' ');
 			d3.select(id).select("svg").remove();
 			
 			var g = d3.select(id)
@@ -365,15 +365,15 @@
 	        }
 	        }).then(function (resp) {
 	          var hits = resp.hits.hits;
-	          var results = [{"name": "Entities","children":[]}];
+	          var results = [];
 	          /*console.log(results);*/
 	          var aparitions = [];
 	          var aux = [];
 	          hits.forEach(function(entry) {
-	            if(aparitions[entry._source.name] == undefined){
-	              aparitions[entry._source.name] = 1
+	            if(aparitions[entry._source.emotion] == undefined){
+	              aparitions[entry._source.emotion] = 1
 	            } else {
-	              aparitions[entry._source.name] ++
+	              aparitions[entry._source.emotion] ++
 	            }
 	          });
 	          var tuples = [];
@@ -395,24 +395,41 @@
 	          }
 	          aparitions = aparitions.splice(0,5)
 	          aparitions.forEach(function(name) {
-	            var positive = []
-	            var negative = []
+	            var anger = []
+	            var disgust = []
+	            var fear = []
+	            var joy = []
 	            var neutral = []
+	            var sadness = []
+
 	            hits.forEach(function(entry) {
-	              if(name == entry._source.name){
-	                if(entry._source.sentiment == "Positive") {
-	                  positive.push({"text": entry._source.text})
-	                } else if(entry._source.sentiment == "Negative") {
-	                  negative.push({"text": entry._source.text})
-	                } else {
+	             
+	                if(entry._source.emotion == "anger") {
+	                  anger.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "disgust") {
+	                  disgust.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "negative-fear"){
+	                  fear.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "joy"){
+	                  joy.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "neutral-emotion"){
 	                  neutral.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "sadness"){
+	                  sadness.push({"text": entry._source.text})
 	                }
-	              }
+	              
 	            })
-	            results[0]["children"].push({"name":name, "children":[{"name":"Positive","children": positive},{"name":"Negative","children": negative},{"name":"Neutral","children": neutral}]})
+	            /*console.log(anger)
+	            console.log(disgust)
+	            console.log(fear)
+	            console.log(joy)
+	            console.log(neutral)
+	            console.log(sadness)*/
+	            results.push([{"anger":anger.length},{"disgust":disgust.length},{"fear":fear.length},{"joy":joy.length},{"neutral":neutral.length},{"sadness":sadness.length}])
+	            /*results[0]["children"].push({"name":name, "children":[{"name":"Anger","children": anger},{"name":"Disgust","children": disgust},{"name":"Negative-fear","children": fear},{"name":"Joy","children": joy},{"name":"Natural-emotion","children": natural},{"name":"sadness","children": sadness}]})*/
 	          })
 	          that.data = results[0]
-	          console.log(that.data);
+	          //console.log(that.data);
 	          that._initiategraph(that.data)
 	        });
 	      },
@@ -422,6 +439,9 @@
 			          hosts: this.host
 			        });
 			          var that = this
+			         // console.log("llego");
+			         // console.log(this.fields);
+			          //console.log(this.query);
 			        client.search({
 			          // undocumented params are appended to the query string
 			          index: this.index,
@@ -436,15 +456,17 @@
 			            }
 			          }
 			        }).then(function (resp) {
+			          //console.log(resp);
 			          var hits = resp.hits.hits;
-			          var results = [{"name": "Entities","children":[]}];
+			          var results = [];
 			          var aparitions = [];
 			          var aux = [];
 			          hits.forEach(function(entry) {
-			            if(aparitions[entry._source.name] == undefined){
-			              aparitions[entry._source.name] = 1
+			          	//console.log(entry);
+			            if(aparitions[entry._source.emotion] == undefined){
+			              aparitions[entry._source.emotion] = 1
 			            } else {
-			              aparitions[entry._source.name] ++
+			              aparitions[entry._source.emotion] ++
 			            }
 			          });
 			          var tuples = [];
@@ -465,24 +487,42 @@
 			              // do something with key and value
 			          }
 			          aparitions = aparitions.splice(0,5)
-			          aparitions.forEach(function(name) {
-			            var positive = []
-			            var negative = []
+			           aparitions.forEach(function(name) {
+			            var anger = []
+			            var disgust = []
+			            var fear = []
+			            var joy = []
 			            var neutral = []
+			            var sadness = []
+
 			            hits.forEach(function(entry) {
-			              if(name == entry._source.name){
-			                if(entry._source.sentiment == "Positive") {
-			                  positive.push({"text": entry._source.text})
-			                } else if(entry._source.sentiment == "Negative") {
-			                  negative.push({"text": entry._source.text})
-			                } else {
+			             
+			                if(entry._source.emotion == "anger") {
+			                  anger.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "disgust") {
+			                  disgust.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "negative-fear"){
+			                  fear.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "joy"){
+			                  joy.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "neutral-emotion"){
 			                  neutral.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "sadness"){
+			                  sadness.push({"text": entry._source.text})
 			                }
-			              }
+			              
 			            })
-			            results[0]["children"].push({"name":name, "children":[{"name":"Positive","children": positive},{"name":"Negative","children": negative},{"name":"Neutral","children": neutral}]})
+			           /* console.log(anger)
+			            console.log(disgust)
+			            console.log(fear)
+			            console.log(joy)
+			            console.log(neutral)
+			            console.log(sadness)*/
+			            results.push([{"anger":anger.length},{"disgust":disgust.length},{"fear":fear.length},{"joy":joy.length},{"neutral":neutral.length},{"sadness":sadness.length}])
+			            /*results[0]["children"].push({"name":name, "children":[{"name":"Anger","children": anger},{"name":"Disgust","children": disgust},{"name":"Negative-fear","children": fear},{"name":"Joy","children": joy},{"name":"Natural-emotion","children": natural},{"name":"sadness","children": sadness}]})*/
 			          })
 			          that.data = results[0]
+			          //console.log(that.data);
 			          that._initiategraph(that.data)
 			        });
 		        },
@@ -501,13 +541,17 @@
 	    _initiategraph: function(data){
 	      	var w = 300,
 			h = 300;
-
+		//console.log(data);
+		/*for(var i=0;i<data.length;i++){
+		console.log(Object.keys(data[i]));
+		}*/
 		var colorscale = d3.scale.category10();
 		var LegendOptions = [];
 		//Legend titles
-		for (var i = 0; i< data.children.length; i++){
-		LegendOptions.push(data.children[i].name);
-	    }
+		/*for (var i = 0; i< data.children.length; i++){
+		//LegendOptions.push(data.children[i].name);
+	    }*/
+	    LegendOptions.push("Emotions")
 
 
 		//console.log(data.children[0].children[0].name);
@@ -515,6 +559,14 @@
 		
 		var d = [
 					[
+					{axis:Object.keys(data[0]),value: data[0].anger},
+					{axis:Object.keys(data[1]),value: data[1].disgust},
+					{axis:Object.keys(data[2]),value: data[2].fear},
+					{axis:Object.keys(data[3]),value: data[3].joy},
+					{axis:Object.keys(data[4]),value: data[4].neutral},
+					{axis:Object.keys(data[5]),value: data[5].sadness}
+					]
+					/*[
 					{axis:data.children[0].children[0].name,value: data.children[0].children[0].children.length},
 					{axis:data.children[0].children[1].name,value: data.children[0].children[1].children.length},
 					{axis:data.children[0].children[2].name,value: (data.children[0].children[2].children.length)/10 }
@@ -534,7 +586,8 @@
 					{axis:data.children[4].children[0].name,value: data.children[4].children[0].children.length},
 					{axis:data.children[4].children[1].name,value: data.children[4].children[1].children.length},
 					{axis:data.children[4].children[2].name,value: (data.children[0].children[2].children.length)/10}
-					]
+					]*/
+					
 				];
 		console.log(d);
 		/*var LegendOptions = ['Smartphone','Tablet'];*/
@@ -587,7 +640,7 @@
 			.attr("width", w+300)
 			.attr("height", h);
 
-		console.log(svg);
+		//console.log(svg);
 
 		//Create the title for the legend
 		

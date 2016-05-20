@@ -130,25 +130,26 @@
           <div style="left: 0; margin-bottom: 20px;">
             <field-chart
                idhelp="help11"
-               index="ftten"
-               subindex="entities"
+               index="footballdata"
+               subindex="tweet"
                title="Sentiment Evolution"
                query="{{query}}"
-               fields='["user", "sentiment", "name", "text"]'>
+               fields='["sentiment", "@timestamp", "text"]'>
             </field-chart>
           </div>
     </div>
     <div class="col-md-3" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
               idhelp="help4"
-              index="ftten"
-              subindex="entities"
+              index="footballdata"
+              subindex="tweet"
               title="Positive Players"
               color="#319b31"
               maintextcolor="#319b31"
               textcolorfill="#9fca9f"
+              sentiment="1"
               query="{{query}}"
-              fields='["user", "sentiment", "name", "text"]'>
+              fields='["sentiment", "polarity", "text"]'>
           </ranking-players>
 
     </div>
@@ -168,28 +169,28 @@
     </div>
     </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 40px; float:left; padding-bottom: 40px;">
-      <acidjs-xtabs width="100%" height="485" selectedtab="0" name="tabs">
-          <acidjs-xtabs-pane label="Emotion Map" hint="Emotion Map">
+     <!-- <acidjs-xtabs width="100%" height="485" selectedtab="0" name="tabs">
+          <acidjs-xtabs-pane label="Emotion Map" hint="Emotion Map"> -->
                <spain-chart
                 id="spain"
                 idhelp="help1"
-                index="twitter_football"
+                index="footballdata"
                 subindex="tweet"
                 query="{{query}}"
-                fields='["user.location"]'>
+                fields='["user.location", "sentiment"]'>
               </spain-chart>
-          </acidjs-xtabs-pane>
-          <acidjs-xtabs-pane label="Emotion Radar" hint="Emotion Radar">
+       <!--   </acidjs-xtabs-pane>
+          <acidjs-xtabs-pane label="Emotion Radar" hint="Emotion Radar"> -->
                <spider-chart
                 id="radar"
-                index="ftten"
+                index="footballemotion"
                 idhelp="help10"
-                subindex="entities"
+                subindex="tweet"
                 query="{{query}}"
-                fields='["user", "sentiment", "name", "text"]'>
+                fields='["emotion", "text"]'>
               </spider-chart>
-          </acidjs-xtabs-pane>
-      </acidjs-xtabs>
+      <!--    </acidjs-xtabs-pane>
+      </acidjs-xtabs> -->
      
       <!--<paper-toggle-button on-tap="_changestate" text="{{texto}}"></paper-toggle-button> -->
 
@@ -197,10 +198,10 @@
     <div class="col-md-6" style="display: inline-block; margin-top: 38px; margin-bottom: 20px; height: 461px;">
       <tweet-chart
                 query="{{query}}"
-                index="ftten"
-                subindex="entities"
+                index="footballdata"
+                subindex="tweet"
                 field="text"
-                fields='["user", "sentiment", "name", "text"]'
+                fields='["user_location", "sentiment", "text"]'
                 host='{{endpoint}}'
                 id='pie-chart1'
                 extra-id='pie-chart1'
@@ -334,7 +335,7 @@
                <spain-chart
                 id="spain"
                 idhelp="help3"
-                index="twitter_football"
+                index="footballdata"
                 subindex="tweet"
                 query="{{query}}"
                 fields='["user.location"]'>

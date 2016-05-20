@@ -82,7 +82,7 @@
 
 	      query: {
 	          type: String,
-	          observer: '_queryChanged'
+	          //observer: '_queryChanged'
 	        },
 
 	      title: {
@@ -94,6 +94,7 @@
       ready: function(){
       	
       	this.queryDefault();
+      	//this._draw();
 
       	
 	  },
@@ -120,7 +121,7 @@
 
 	  },
 
-	  _draw: function(){
+	  _draw: function(arrdatesent){
 
 	  		function addAxesAndLegend (svg, xAxis, yAxis, margin, chartWidth, chartHeight) {
 			  var legendWidth  = 200,
@@ -149,11 +150,12 @@
 			    .attr('class', 'y axis')
 			    .call(yAxis)
 			    .append('text')
-			      .attr('transform', 'rotate(-90)')
+			      //.attr('transform', 'rotate(-90)')
+			      .attr('transform', 'translate(120,-22)')
 			      .attr('y', 6)
 			      .attr('dy', '.71em')
 			      .style('text-anchor', 'end')
-			      .text('Time (s)');
+			      .text('Sentiment Polarity');
 
 			  /*var legend = svg.append('g')
 			    .attr('class', 'legend')
@@ -199,7 +201,7 @@
 			}
 
 			function drawPaths (svg, data, x, y) {
-			  var upperOuterArea = d3.svg.area()
+			  /*var upperOuterArea = d3.svg.area()
 			    .interpolate('basis')
 			    .x (function (d) { return x(d.date) || 1; })
 			    .y0(function (d) { return y(d.pct95); })
@@ -209,14 +211,14 @@
 			    .interpolate('basis')
 			    .x (function (d) { return x(d.date) || 1; })
 			    .y0(function (d) { return y(d.pct75); })
-			    .y1(function (d) { return y(d.pct50); });
+			    .y1(function (d) { return y(d.pct50); });*/
 
 			  var medianLine = d3.svg.line()
 			    .interpolate('basis')
-			    .x(function (d) { return x(d.date); })
-			    .y(function (d) { return y(d.pct50); });
+			    .x(function (d) { return x(d.time); })
+			    .y(function (d) { return y(d.polarity); });
 
-			  var lowerInnerArea = d3.svg.area()
+			 /* var lowerInnerArea = d3.svg.area()
 			    .interpolate('basis')
 			    .x (function (d) { return x(d.date) || 1; })
 			    .y0(function (d) { return y(d.pct50); })
@@ -226,11 +228,11 @@
 			    .interpolate('basis')
 			    .x (function (d) { return x(d.date) || 1; })
 			    .y0(function (d) { return y(d.pct25); })
-			    .y1(function (d) { return y(d.pct05); });
+			    .y1(function (d) { return y(d.pct05); });*/
 
 			  svg.datum(data);
 
-			  svg.append('path')
+			  /*svg.append('path')
 			    .attr('class', 'area upper outer')
 			    .attr('d', upperOuterArea)
 			    .attr('clip-path', 'url(#rect-clip)');
@@ -248,7 +250,7 @@
 			  svg.append('path')
 			    .attr('class', 'area lower inner')
 			    .attr('d', lowerInnerArea)
-			    .attr('clip-path', 'url(#rect-clip)');
+			    .attr('clip-path', 'url(#rect-clip)');*/
 
 			  svg.append('path')
 			    .attr('class', 'median-line')
@@ -315,14 +317,15 @@
 			      chartHeight = svgHeight - margin.top  - margin.bottom;
 
 			  var x = d3.time.scale().range([0, chartWidth])
-			            .domain(d3.extent(data, function (d) { return d.date; })),
+			            .domain(d3.extent(data, function (d) { return d.time; })),
 			      y = d3.scale.linear().range([chartHeight, 0])
-			            .domain([0, d3.max(data, function (d) { return d.pct95; })]);
+			            .domain([-1, d3.max(data, function (d) { return d.polarity; })]);
 
 			  var xAxis = d3.svg.axis().scale(x).orient('bottom')
 			                .innerTickSize(-chartHeight).outerTickSize(0).tickPadding(10),
 			      yAxis = d3.svg.axis().scale(y).orient('left')
 			                .innerTickSize(-chartWidth).outerTickSize(0).tickPadding(10);
+			  console.log(yAxis);
 
 			  var svg = d3.select('#grafica_campo').append('svg')
 			    .attr('width',  svgWidth)
@@ -342,7 +345,7 @@
 			  startTransitions(svg, chartWidth, chartHeight, rectClip, markers, x);
 			}
 
-			var parseDate  = d3.time.format('%Y%m%d').parse;
+			var parseDate  = d3.time.format('%Y-%m-%d').parse;
 
 
 
@@ -376,15 +379,15 @@
 			        version: marker.version
 			      };
 			    });
-
-			    makeChart(data, markers);
+			    console.log(data);
+			    makeChart(arrdatesent, markers);
 			  });
 			//makeChart(data);
 			});
       },
-       _queryChanged: function() {
+      /* _queryChanged: function() {
           this.query ? this.queryChange(this.query) : this.queryDefault();
-        },
+        },*/
 
 	  queryDefault: function() {
 	  
@@ -397,13 +400,13 @@
         index: this.index,
         type: this.subindex,
         body: {
-          size: 100,
+          size: 5000,
           query: {
         	match_all: {}
     			},
              	
-       	  fields: ["sentiment", "time"],
-       	  sort: {"time":"desc"}
+       	  fields: ["polarity", "@timestamp"],
+       	  sort: {"@timestamp":"desc"}
    			 
              	
          	
@@ -415,16 +418,33 @@
           hits.forEach(function(entry) {
             results.push(entry.fields);
           });
-        	console.log(results);
+        	//console.log(results);
+        	function randInt(max, min) {
+			    return ((min | 0) + Math.random() * (max + 1)) | 0;
+			}
+	        function remRandom(arr, newLength) {
+			    var a = arr.slice();
+			    while (a.length > newLength) a.splice(randInt(a.length - 1), 1);
+			    return a;
+			}
         	var arrdatesent = [];
         	for (var i=0; i<results.length;i++){
-        		console.log(results[i].time);
-        		if(results[i].time == results[i++].time){
-        			console.log("hola");
+        		var fecha = (results[i]["@timestamp"][0]).split("T");
+        		var horastrange = fecha[1];
+        		var parseHour = d3.time.format('%H:%M:%S').parse;
+        		var hora =  horastrange.split(".")[0];
+        		//console.log((results[i]["@timestamp"][0]).split("T"));
+        		//console.log(hora);
+        		if(parseHour("20:45:00")<parseHour(hora)){
+        		arrdatesent.push({"time": parseHour(hora), "polarity": results[i]["polarity"][0]});
         		}
-        	}
+        		}
+        	
+        	console.log(arrdatesent);
+        	var newarraysent = remRandom(arrdatesent, 100);
+
         	//console.log(sitios);
-          //that._draw(sitios);
+          that._draw(newarraysent);
         });
 	      
 	    },
