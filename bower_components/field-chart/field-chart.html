@@ -325,7 +325,7 @@
 			                .innerTickSize(-chartHeight).outerTickSize(0).tickPadding(10),
 			      yAxis = d3.svg.axis().scale(y).orient('left')
 			                .innerTickSize(-chartWidth).outerTickSize(0).tickPadding(10);
-			  console.log(yAxis);
+			  //console.log(yAxis);
 
 			  var svg = d3.select('#grafica_campo').append('svg')
 			    .attr('width',  svgWidth)
@@ -379,7 +379,7 @@
 			        version: marker.version
 			      };
 			    });
-			    console.log(data);
+			    //console.log(data);
 			    makeChart(arrdatesent, markers);
 			  });
 			//makeChart(data);
@@ -419,15 +419,9 @@
             results.push(entry.fields);
           });
         	//console.log(results);
-        	function randInt(max, min) {
-			    return ((min | 0) + Math.random() * (max + 1)) | 0;
-			}
-	        function remRandom(arr, newLength) {
-			    var a = arr.slice();
-			    while (a.length > newLength) a.splice(randInt(a.length - 1), 1);
-			    return a;
-			}
+        	
         	var arrdatesent = [];
+        	var newarrdatesent = []
         	for (var i=0; i<results.length;i++){
         		var fecha = (results[i]["@timestamp"][0]).split("T");
         		var horastrange = fecha[1];
@@ -439,12 +433,19 @@
         		arrdatesent.push({"time": parseHour(hora), "polarity": results[i]["polarity"][0]});
         		}
         		}
-        	
-        	console.log(arrdatesent);
-        	var newarraysent = remRandom(arrdatesent, 100);
-
+        	var indices =  [];
+        	for (var i = 0 ; i<(arrdatesent.length); i++){
+        		if(i % 50 === 0){
+        		indices.push(i);
+        		}
+        	}
+        	//console.log(indices);
+        	for (var i =0; i<indices.length; i++){
+        		newarrdatesent.push(arrdatesent[indices[i]]);
+        	}
+        	//console.log(newarrdatesent)
         	//console.log(sitios);
-          that._draw(newarraysent);
+          that._draw(newarrdatesent);
         });
 	      
 	    },
