@@ -554,7 +554,7 @@
 			    		data[i].coordinates = [-8.4563748+(Math.random()*0.4),35.0578025+(Math.random()*0.4)]
 			    	}
 			    	if (data[i].sentiment == "Neutral"){
-			    		data[i].image = "angry-face.png"
+			    		data[i].image = "neutral-face.png"
 			    	}
 			    	if (data[i].sentiment == "Positive"){
 			    		data[i].image = "grinning-face.png"
@@ -839,7 +839,6 @@
 
 	   _queryChanged: function() {
           this.query ? this.queryChange(this.query) : this.queryDefault();
-          console.log("piusld")
         },
 
 	  queryDefault: function() {
