@@ -147,7 +147,6 @@
               color="#319b31"
               maintextcolor="#319b31"
               textcolorfill="#9fca9f"
-              sentiment="1"
               query="{{query}}"
               fields='["sentiment", "polarity", "text"]'>
           </ranking-players>
@@ -156,14 +155,14 @@
     <div class="col-md-3" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
               idhelp="help5"
-              index="ftten"
-              subindex="entities"
+              index="footballdata"
+              subindex="tweet"
               title="Negative Players"
               color="#D90007"
               maintextcolor="#D90007"
               textcolorfill="#cc7777"
               query="{{query}}"
-              fields='["user", "sentiment", "name", "text"]'>
+              fields='["sentiment", "polarity", "text"]'>
           </ranking-players>
 
     </div>
@@ -227,17 +226,18 @@
       <div class="col-md-6" style="display: inline-block; margin-bottom: 10px;">
           
            <top-teams
-              teamname="Atlético de Madrid"
-              color="#319b31"
-              image="/images/players/ATM/atm.jpg"
+              index="footballdata"
+              query="{{query}}"
+              indexemo="footballemotion"
+              subindex="tweet"
               title="Most positive team">
             </top-teams>
          
          <top-teams
-              teamname="FC Barcelona"
-              color="#D90007"
-              icon="trending-down"
-              image="/images/players/FCB/fcb.jpg"
+              index="footballdata"
+              query="{{query}}"
+              indexemo="footballemotion"
+              subindex="tweet"
               title="Most negative team">
             </top-teams>
          
@@ -245,14 +245,14 @@
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
               idhelp="help6"
-              index="ftten"
-              subindex="entities"
+              index="footballdata"
+              subindex="tweet"
               title="Team Ranking"
               color="#319b31"
               maintextcolor="#319b31"
               textcolorfill="#9fca9f"
               query="{{query}}"
-              fields='["user", "sentiment", "name", "text"]'>
+              fields='["sentiment", "polarity", "text"]'>
           </ranking-players>
 
     </div>
@@ -273,8 +273,8 @@
                <spider-chart
                 id="radar"
                 idhelp="help9"
-                index="ftten"
-                subindex="entities"
+                index="footballemotion"
+                subindex="tweet"
                 query="{{query}}"
                 fields='["user", "sentiment", "name", "text"]'>
               </spider-chart>
@@ -306,33 +306,32 @@
     <div>
       <div class="col-md-6" style="display: inline-block; margin-bottom: 10px;">
             <top-players
-              playername="Saúl"
-              numpositive="1800"
-              numnegative="152"
-              image="/images/players/ATM/saul.jpg"
+              index="footballdata"
+              query="{{query}}"
+              indexemo="footballemotion"
+              subindex="tweet"
               title="Most positive player">
             </top-players>
          
          <top-players
-              playername="Dani Alves"
-              numpositive="500"
-              numnegative="4650"
-              icon="trending-down"
-              image="/images/players/FCB/alves.jpg"
+              index="footballdata"
+              query="{{query}}"
+              indexemo="footballemotion"
+              subindex="tweet"
               title="Most negative player">
             </top-players>
      </div>
     <div class="col-md-6" style="display: inline-block; margin-bottom: 20px;">
           <ranking-players
               idhelp="help7"
-              index="ftten"
-              subindex="entities"
+              index="footballdata"
+              subindex="tweet"
               title="Player Ranking"
               color="#319b31"
               maintextcolor="#319b31"
               textcolorfill="#9fca9f"
               query="{{query}}"
-              fields='["user", "sentiment", "name", "text"]'>
+              fields='["sentiment", "polarity", "text"]'>
           </ranking-players>
 
     </div>
