@@ -114,7 +114,7 @@
           this.queryDefault();
       },
        _showhelp: function(){
-       console.log("disparo");
+       //console.log("disparo");
 
        if(document.getElementById("help4").style.display == "none"){
         var elemento1 = document.getElementById("help4");
@@ -215,7 +215,7 @@
                 
             }
             puntosequipo.total = {"negative": totneg, "positive": totpos}
-            console.log(puntosequipo);
+            //console.log(puntosequipo);
             if (that.title == "Most positive team"){
               puntosequipo.sort(function(a,b){return b.positive - a.positive});
                 that.teamname = puntosequipo[0].team;
@@ -528,7 +528,7 @@
                 }
                   
                 puntosequipo.push({"negative" : negative, "positive" : positive, "team": that.teamsarr[i]});
-                console.log(puntosequipo);   
+                //console.log(puntosequipo);   
             }
             puntosequipo.total = {"negative": totneg, "positive": totpos}
             if (that.title == "Most positive team"){

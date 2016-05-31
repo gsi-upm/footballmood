@@ -77,6 +77,17 @@
 	      index: {
 	          type: String
 	        },
+	       tipo: {
+	      	type: String
+	       },
+	      teams:{
+	          type: String,
+	          value: "FCB Barcelona Barça FCBarcelona ATM Atlético Atletico Atleti"
+            },
+          players:{
+          	type: String,
+          	value: "Moyá Godín Filipe Tiago Koke Griezmann Kranevitter Torres Óliver Augusto Oblak Gabi Savic Correa Saúl Gámez Lucas Juanfran Carrasco Thomas Vietto Giménez Monsalve Ter Stegen Bravo Piqué Alves Bartra Jordi Alba Adriano Aleix Vidal Vermaelen Mathieu Rakitic Busquets Arda Iniesta Mascherano Roberto Suarez Messi Neymar Munir"
+        	},
 
 	      subindex: {
 	          type: String
@@ -107,8 +118,9 @@
 	  },
 
       ready: function(){
-
+      	//console.log(this.tipo);
       	this.queryDefault();
+      	
       	
       	
       	
@@ -353,6 +365,7 @@
 	          hosts: this.host
 	        });
 	        var that = this
+	        if(this.tipo == undefined){
 	        client.search({
 	        // undocumented params are appended to the query string
 	        index: this.index,
@@ -432,6 +445,183 @@
 	          //console.log(that.data);
 	          that._initiategraph(that.data)
 	        });
+			}
+		    if(this.tipo == "players"){
+	        client.search({
+	        // undocumented params are appended to the query string
+	        index: this.index,
+	        type: this.subindex,
+	        body: {
+	          size: 10000,
+	          query: {
+	            "bool" : {
+	            "must" : [ 
+	                
+	                { "match": { "text" : this.players}}
+	               
+	            		]
+         			}
+    			}
+	          }
+	        
+	        }).then(function (resp) {
+	          var hits = resp.hits.hits;
+	          var results = [];
+	          /*console.log(results);*/
+	          var aparitions = [];
+	          var aux = [];
+	          hits.forEach(function(entry) {
+	            if(aparitions[entry._source.emotion] == undefined){
+	              aparitions[entry._source.emotion] = 1
+	            } else {
+	              aparitions[entry._source.emotion] ++
+	            }
+	          });
+	          var tuples = [];
+
+	          for (var key in aparitions) tuples.push([key, aparitions[key]]);
+
+	          tuples.sort(function(a, b) {
+	              a = a[1];
+	              b = b[1];
+
+	              return a > b ? -1 : (a < b ? 1 : 0);
+	          });
+	          aparitions = []
+	          for (var i = 0; i < tuples.length; i++) {
+	              var key = tuples[i][0];
+	              var value = tuples[i][1];
+	              aparitions[i] = key
+	              // do something with key and value
+	          }
+	          aparitions = aparitions.splice(0,5)
+	          aparitions.forEach(function(name) {
+	            var anger = []
+	            var disgust = []
+	            var fear = []
+	            var joy = []
+	            var neutral = []
+	            var sadness = []
+
+	            hits.forEach(function(entry) {
+	             
+	                if(entry._source.emotion == "anger") {
+	                  anger.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "disgust") {
+	                  disgust.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "negative-fear"){
+	                  fear.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "joy"){
+	                  joy.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "neutral-emotion"){
+	                  neutral.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "sadness"){
+	                  sadness.push({"text": entry._source.text})
+	                }
+	              
+	            })
+	            /*console.log(anger)
+	            console.log(disgust)
+	            console.log(fear)
+	            console.log(joy)
+	            console.log(neutral)
+	            console.log(sadness)*/
+	            results.push([{"anger":anger.length},{"disgust":disgust.length},{"fear":fear.length},{"joy":joy.length},{"neutral":neutral.length},{"sadness":sadness.length}])
+	            /*results[0]["children"].push({"name":name, "children":[{"name":"Anger","children": anger},{"name":"Disgust","children": disgust},{"name":"Negative-fear","children": fear},{"name":"Joy","children": joy},{"name":"Natural-emotion","children": natural},{"name":"sadness","children": sadness}]})*/
+	          })
+	          that.data = results[0]
+	          //console.log(that.data);
+	          that._initiategraph(that.data)
+	        });
+			}
+			 if(this.tipo == "teams"){
+	        client.search({
+	        // undocumented params are appended to the query string
+	        index: this.index,
+	        type: this.subindex,
+	        body: {
+	          size: 10000,
+	          query: {
+	            "bool" : {
+	            "must" : [ 
+	                
+	                { "match": { "text" : this.teams}}
+	               
+	            		]
+         			}
+    			}
+	          }
+	        
+	        }).then(function (resp) {
+	          var hits = resp.hits.hits;
+	          var results = [];
+	          /*console.log(results);*/
+	          var aparitions = [];
+	          var aux = [];
+	          hits.forEach(function(entry) {
+	            if(aparitions[entry._source.emotion] == undefined){
+	              aparitions[entry._source.emotion] = 1
+	            } else {
+	              aparitions[entry._source.emotion] ++
+	            }
+	          });
+	          var tuples = [];
+
+	          for (var key in aparitions) tuples.push([key, aparitions[key]]);
+
+	          tuples.sort(function(a, b) {
+	              a = a[1];
+	              b = b[1];
+
+	              return a > b ? -1 : (a < b ? 1 : 0);
+	          });
+	          aparitions = []
+	          for (var i = 0; i < tuples.length; i++) {
+	              var key = tuples[i][0];
+	              var value = tuples[i][1];
+	              aparitions[i] = key
+	              // do something with key and value
+	          }
+	          aparitions = aparitions.splice(0,5)
+	          aparitions.forEach(function(name) {
+	            var anger = []
+	            var disgust = []
+	            var fear = []
+	            var joy = []
+	            var neutral = []
+	            var sadness = []
+
+	            hits.forEach(function(entry) {
+	             
+	                if(entry._source.emotion == "anger") {
+	                  anger.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "disgust") {
+	                  disgust.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "negative-fear"){
+	                  fear.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "joy"){
+	                  joy.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "neutral-emotion"){
+	                  neutral.push({"text": entry._source.text})
+	                } else if(entry._source.emotion == "sadness"){
+	                  sadness.push({"text": entry._source.text})
+	                }
+	              
+	            })
+	            /*console.log(anger)
+	            console.log(disgust)
+	            console.log(fear)
+	            console.log(joy)
+	            console.log(neutral)
+	            console.log(sadness)*/
+	            results.push([{"anger":anger.length},{"disgust":disgust.length},{"fear":fear.length},{"joy":joy.length},{"neutral":neutral.length},{"sadness":sadness.length}])
+	            /*results[0]["children"].push({"name":name, "children":[{"name":"Anger","children": anger},{"name":"Disgust","children": disgust},{"name":"Negative-fear","children": fear},{"name":"Joy","children": joy},{"name":"Natural-emotion","children": natural},{"name":"sadness","children": sadness}]})*/
+	          })
+	          that.data = results[0]
+	          //console.log(that.data);
+	          that._initiategraph(that.data)
+	        });
+			}
 	      },
 
 	      queryChange: function(value) {
@@ -442,6 +632,7 @@
 			         // console.log("llego");
 			         // console.log(this.fields);
 			          //console.log(this.query);
+			        if(this.tipo == undefined){
 			        client.search({
 			          // undocumented params are appended to the query string
 			          index: this.index,
@@ -525,6 +716,183 @@
 			          //console.log(that.data);
 			          that._initiategraph(that.data)
 			        });
+					}
+					if(this.tipo == "teams"){
+			        client.search({
+			          // undocumented params are appended to the query string
+			          index: this.index,
+			          type: this.subindex,
+			          body: {
+			            size: 10000,
+				          query: {
+				            "bool" : {
+				            "must" : [ 
+				                
+				                { "match": { "text" : this.teams}}
+				               
+				            		]
+			         			}
+			    			}
+			          }
+			        }).then(function (resp) {
+			          //console.log(resp);
+			          var hits = resp.hits.hits;
+			          var results = [];
+			          var aparitions = [];
+			          var aux = [];
+			          hits.forEach(function(entry) {
+			          	//console.log(entry);
+			            if(aparitions[entry._source.emotion] == undefined){
+			              aparitions[entry._source.emotion] = 1
+			            } else {
+			              aparitions[entry._source.emotion] ++
+			            }
+			          });
+			          var tuples = [];
+
+			          for (var key in aparitions) tuples.push([key, aparitions[key]]);
+
+			          tuples.sort(function(a, b) {
+			              a = a[1];
+			              b = b[1];
+
+			              return a > b ? -1 : (a < b ? 1 : 0);
+			          });
+			          aparitions = []
+			          for (var i = 0; i < tuples.length; i++) {
+			              var key = tuples[i][0];
+			              var value = tuples[i][1];
+			              aparitions[i] = key
+			              // do something with key and value
+			          }
+			          aparitions = aparitions.splice(0,5)
+			           aparitions.forEach(function(name) {
+			            var anger = []
+			            var disgust = []
+			            var fear = []
+			            var joy = []
+			            var neutral = []
+			            var sadness = []
+
+			            hits.forEach(function(entry) {
+			             
+			                if(entry._source.emotion == "anger") {
+			                  anger.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "disgust") {
+			                  disgust.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "negative-fear"){
+			                  fear.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "joy"){
+			                  joy.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "neutral-emotion"){
+			                  neutral.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "sadness"){
+			                  sadness.push({"text": entry._source.text})
+			                }
+			              
+			            })
+			           /* console.log(anger)
+			            console.log(disgust)
+			            console.log(fear)
+			            console.log(joy)
+			            console.log(neutral)
+			            console.log(sadness)*/
+			            results.push([{"anger":anger.length},{"disgust":disgust.length},{"fear":fear.length},{"joy":joy.length},{"neutral":neutral.length},{"sadness":sadness.length}])
+			            /*results[0]["children"].push({"name":name, "children":[{"name":"Anger","children": anger},{"name":"Disgust","children": disgust},{"name":"Negative-fear","children": fear},{"name":"Joy","children": joy},{"name":"Natural-emotion","children": natural},{"name":"sadness","children": sadness}]})*/
+			          })
+			          that.data = results[0]
+			          //console.log(that.data);
+			          that._initiategraph(that.data)
+			        });
+					}
+										if(this.tipo == "players"){
+			        client.search({
+			          // undocumented params are appended to the query string
+			          index: this.index,
+			          type: this.subindex,
+			          body: {
+			            size: 10000,
+				          query: {
+				            "bool" : {
+				            "must" : [ 
+				                
+				                { "match": { "text" : this.players}}
+				               
+				            		]
+			         			}
+			    			}
+			          }
+			        }).then(function (resp) {
+			          //console.log(resp);
+			          var hits = resp.hits.hits;
+			          var results = [];
+			          var aparitions = [];
+			          var aux = [];
+			          hits.forEach(function(entry) {
+			          	//console.log(entry);
+			            if(aparitions[entry._source.emotion] == undefined){
+			              aparitions[entry._source.emotion] = 1
+			            } else {
+			              aparitions[entry._source.emotion] ++
+			            }
+			          });
+			          var tuples = [];
+
+			          for (var key in aparitions) tuples.push([key, aparitions[key]]);
+
+			          tuples.sort(function(a, b) {
+			              a = a[1];
+			              b = b[1];
+
+			              return a > b ? -1 : (a < b ? 1 : 0);
+			          });
+			          aparitions = []
+			          for (var i = 0; i < tuples.length; i++) {
+			              var key = tuples[i][0];
+			              var value = tuples[i][1];
+			              aparitions[i] = key
+			              // do something with key and value
+			          }
+			          aparitions = aparitions.splice(0,5)
+			           aparitions.forEach(function(name) {
+			            var anger = []
+			            var disgust = []
+			            var fear = []
+			            var joy = []
+			            var neutral = []
+			            var sadness = []
+
+			            hits.forEach(function(entry) {
+			             
+			                if(entry._source.emotion == "anger") {
+			                  anger.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "disgust") {
+			                  disgust.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "negative-fear"){
+			                  fear.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "joy"){
+			                  joy.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "neutral-emotion"){
+			                  neutral.push({"text": entry._source.text})
+			                } else if(entry._source.emotion == "sadness"){
+			                  sadness.push({"text": entry._source.text})
+			                }
+			              
+			            })
+			           /* console.log(anger)
+			            console.log(disgust)
+			            console.log(fear)
+			            console.log(joy)
+			            console.log(neutral)
+			            console.log(sadness)*/
+			            results.push([{"anger":anger.length},{"disgust":disgust.length},{"fear":fear.length},{"joy":joy.length},{"neutral":neutral.length},{"sadness":sadness.length}])
+			            /*results[0]["children"].push({"name":name, "children":[{"name":"Anger","children": anger},{"name":"Disgust","children": disgust},{"name":"Negative-fear","children": fear},{"name":"Joy","children": joy},{"name":"Natural-emotion","children": natural},{"name":"sadness","children": sadness}]})*/
+			          })
+			          that.data = results[0]
+			          //console.log(that.data);
+			          that._initiategraph(that.data)
+			        });
+					}
 		        },
 
 		        /** Fired when a search is made.

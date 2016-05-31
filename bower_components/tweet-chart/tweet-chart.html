@@ -54,6 +54,17 @@
           type: String,
           value: "List of different tweets"
         },
+        tipo: {
+          type: String
+         },
+        teams:{
+            type: String,
+            value: "FCB Barcelona Barça FCBarcelona ATM Atlético Atletico Atleti"
+            },
+          players:{
+            type: String,
+            value: "Moyá Godín Filipe Tiago Koke Griezmann Kranevitter Torres Óliver Augusto Oblak Gabi Savic Correa Saúl Gámez Lucas Juanfran Carrasco Thomas Vietto Giménez Monsalve Ter Stegen Bravo Piqué Alves Bartra Jordi Alba Adriano Aleix Vidal Vermaelen Mathieu Rakitic Busquets Arda Iniesta Mascherano Roberto Suarez Messi Neymar Munir"
+          },
 
         brand: {
           type: String,
@@ -102,7 +113,8 @@
       '_filtersChange(filters.*)'
       ],
 
-      ready: function() {   
+      ready: function() {
+        console.log(this.tipo);   
         this.field ? this.queryDefault() : undefined
       },
 
@@ -111,6 +123,7 @@
           hosts: this.host
         });
         var that = this
+        if(this.tipo == undefined){
         client.search({
         // undocumented params are appended to the query string
         index: this.index,
@@ -128,8 +141,63 @@
             results.push(entry._source);
           });
           that.data = results;
-          console.log(that.data);
+          //console.log(that.data);
         });
+        }
+        if(this.tipo == "players"){
+        client.search({
+        // undocumented params are appended to the query string
+        index: this.index,
+        type: this.subindex,
+        body: {
+          size: 5,
+          query: {
+              "bool" : {
+              "must" : [ 
+                  
+                  { "match": { "text" : this.players}}
+                 
+                  ]
+              }
+          }
+        }
+        }).then(function (resp) {
+          var hits = resp.hits.hits;
+          var results = []
+          hits.forEach(function(entry) {
+            results.push(entry._source);
+          });
+          that.data = results;
+          //console.log(that.data);
+        });
+        }
+        if(this.tipo == "teams"){
+        client.search({
+        // undocumented params are appended to the query string
+        index: this.index,
+        type: this.subindex,
+        body: {
+          size: 5,
+          query: {
+              "bool" : {
+              "must" : [ 
+                  
+                  { "match": { "text" : this.teams}}
+                 
+                  ]
+              }
+          }
+        }
+        }).then(function (resp) {
+          var hits = resp.hits.hits;
+          var results = []
+          hits.forEach(function(entry) {
+            results.push(entry._source);
+          });
+          that.data = results;
+          //console.log(that.data);
+        });
+        }
       },
 
       queryChange: function(value) {
@@ -137,6 +205,7 @@
             hosts: this.host
           });
             var that = this
+          if(this.tipo == undefined){
           client.search({
             // undocumented params are appended to the query string
             index: this.index,
@@ -158,6 +227,61 @@
             });
             that.data = results
           });
+        }
+        if(this.tipo == "players"){
+          client.search({
+            // undocumented params are appended to the query string
+            index: this.index,
+            type: this.subindex,
+            body: {
+              size: 5,
+              query: {
+                    "bool" : {
+                    "must" : [ 
+                        
+                        { "match": { "text" : this.players}},
+                        { "match": { "text" : this.query}}
+                       
+                        ]
+                    }
+                }
+            }
+          }).then(function (resp) {
+            var hits = resp.hits.hits;
+            var results = []
+            hits.forEach(function(entry) {
+              results.push(entry._source);
+            });
+            that.data = results
+          });
+        }
+          if(this.tipo == "teams"){
+          client.search({
+            // undocumented params are appended to the query string
+            index: this.index,
+            type: this.subindex,
+            body: {
+              size: 5,
+              query: {
+                    "bool" : {
+                    "must" : [ 
+                        
+                        { "match": { "text" : this.teams}},
+                        { "match": { "text" : this.query}}
+                       
+                        ]
+                    }
+                }
+            }
+          }).then(function (resp) {
+            var hits = resp.hits.hits;
+            var results = []
+            hits.forEach(function(entry) {
+              results.push(entry._source);
+            });
+            that.data = results
+          });
+        }
         },
 
         /** Fired when a search is made.
