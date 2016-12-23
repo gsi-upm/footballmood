@@ -405,32 +405,31 @@
         	match_all: {}
     			},
              	
-       	  fields: ["polarity", "@timestamp"],
-       	  sort: {"@timestamp":"desc"}
-   			 
-             	
-         	
+       	  stored_fields: ["polarity", "@timestamp"],
+       	  sort: {"@timestamp":"desc"},
+       	  _source:  {}
           
         }
         }).then(function (resp) {
           var hits = resp.hits.hits;
           var results = []
           hits.forEach(function(entry) {
-            results.push(entry.fields);
+          	//console.log(entry)
+            results.push(entry._source);
           });
         	//console.log(results);
         	
         	var arrdatesent = [];
         	var newarrdatesent = []
         	for (var i=0; i<results.length;i++){
-        		var fecha = (results[i]["@timestamp"][0]).split("T");
+        		var fecha = (results[i]["@timestamp"]).split("T");
         		var horastrange = fecha[1];
         		var parseHour = d3.time.format('%H:%M:%S').parse;
         		var hora =  horastrange.split(".")[0];
-        		//console.log((results[i]["@timestamp"][0]).split("T"));
+        		//console.log((results[i]["@timestamp"]).split("T"));
         		//console.log(hora);
         		if(parseHour("20:45:00")<parseHour(hora)){
-        		arrdatesent.push({"time": parseHour(hora), "polarity": results[i]["polarity"][0]});
+        		arrdatesent.push({"time": parseHour(hora), "polarity": results[i]["polarity"]});
         		}
         		}
         	var indices =  [];
@@ -471,7 +470,7 @@
           var hits = resp.hits.hits;
           var results = []
           hits.forEach(function(entry) {
-            results.push(entry.fields);
+            results.push(entry.stored_fields);
           });
         	//console.log("engendro"+results.length);
         	

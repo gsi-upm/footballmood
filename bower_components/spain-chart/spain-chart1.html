@@ -862,7 +862,8 @@
          }
     },
              	
-       	  fields: [ "user_location" , "text" , "sentiment"] 
+       	  stored_fields: [ "user_location" , "text" , "sentiment"],
+       	  _source: {}
          	
           
         }
@@ -870,7 +871,7 @@
           var hits = resp.hits.hits;
           var results = []
           hits.forEach(function(entry) {
-            results.push(entry.fields);
+            results.push(entry._source);
           });
         	//console.log(results);
         	function filterbylocation(obj){
@@ -885,38 +886,38 @@
         	var sitios = []
         	for(var i = 0; i<resultsclean.length; i++){
         	//console.log((resultsclean[i]["sentiment"][0]).split(":")[1]);
-        	if((resultsclean[i]["user_location"][0]).indexOf("Barcelona")>-1){
-        		sitios.push({city:"Barcelona", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Barcelona")>-1){
+        		sitios.push({city:"Barcelona", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Madrid")>-1){
-        		sitios.push({city:"Madrid", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Madrid")>-1){
+        		sitios.push({city:"Madrid", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Valencia")>-1){
-        		sitios.push({city:"Valencia", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Valencia")>-1){
+        		sitios.push({city:"Valencia", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Galicia")>-1){
-        		sitios.push({city:"Galicia", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Galicia")>-1){
+        		sitios.push({city:"Galicia", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Sevilla")>-1){
-        		sitios.push({city:"Sevilla", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Sevilla")>-1){
+        		sitios.push({city:"Sevilla", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("León")>-1){
-        		sitios.push({city:"León", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("León")>-1){
+        		sitios.push({city:"León", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Zamora")>-1){
-        		sitios.push({city:"Zamora", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Zamora")>-1){
+        		sitios.push({city:"Zamora", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Cantabria")>-1){
-        		sitios.push({city:"Cantabria", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Cantabria")>-1){
+        		sitios.push({city:"Cantabria", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Asturias")>-1){
-        		sitios.push({city:"Asturias", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Asturias")>-1){
+        		sitios.push({city:"Asturias", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Zaragoza")>-1){
-        		sitios.push({city:"Zaragoza", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Zaragoza")>-1){
+        		sitios.push({city:"Zaragoza", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Canarias")>-1){
-        		sitios.push({city:"Canarias", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Canarias")>-1){
+        		sitios.push({city:"Canarias", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
         	}
 
@@ -947,7 +948,8 @@
         			 }
     			},
              	
-       	  fields: [ "user_location" , "text" , "sentiment" ] 
+       	  stored_fields: [ "user_location" , "text" , "sentiment" ],
+       	  _source: {} 
          	
           
         }
@@ -955,7 +957,7 @@
           var hits = resp.hits.hits;
           var results = []
           hits.forEach(function(entry) {
-            results.push(entry.fields);
+            results.push(entry._source);
           });
         	//console.log("engendro"+results.length);
         	function filterbylocation(obj){
@@ -970,38 +972,38 @@
         	var sitios = []
         	for(var i = 0; i<resultsclean.length; i++){
         	//console.log((resultsclean[i]["sentiment"][0]).split(":")[1]);
-        	if((resultsclean[i]["user_location"][0]).indexOf("Barcelona")>-1){
-        		sitios.push({city:"Barcelona", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Barcelona")>-1){
+        		sitios.push({city:"Barcelona", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Madrid")>-1){
-        		sitios.push({city:"Madrid", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Madrid")>-1){
+        		sitios.push({city:"Madrid", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Valencia")>-1){
-        		sitios.push({city:"Valencia", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Valencia")>-1){
+        		sitios.push({city:"Valencia", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Galicia")>-1){
-        		sitios.push({city:"Galicia", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Galicia")>-1){
+        		sitios.push({city:"Galicia", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Sevilla")>-1){
-        		sitios.push({city:"Sevilla", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Sevilla")>-1){
+        		sitios.push({city:"Sevilla", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("León")>-1){
-        		sitios.push({city:"León", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("León")>-1){
+        		sitios.push({city:"León", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Zamora")>-1){
-        		sitios.push({city:"Zamora", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Zamora")>-1){
+        		sitios.push({city:"Zamora", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Cantabria")>-1){
-        		sitios.push({city:"Cantabria", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Cantabria")>-1){
+        		sitios.push({city:"Cantabria", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Asturias")>-1){
-        		sitios.push({city:"Asturias", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Asturias")>-1){
+        		sitios.push({city:"Asturias", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Zaragoza")>-1){
-        		sitios.push({city:"Zaragoza", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Zaragoza")>-1){
+        		sitios.push({city:"Zaragoza", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
-        	if((resultsclean[i]["user_location"][0]).indexOf("Canarias")>-1){
-        		sitios.push({city:"Canarias", sentiment: (resultsclean[i]["sentiment"][0]).split(":")[1], coordinates:[], text: resultsclean[i]["text"][0]});
+        	if((resultsclean[i]["user_location"]).indexOf("Canarias")>-1){
+        		sitios.push({city:"Canarias", sentiment: (resultsclean[i]["sentiment"]).split(":")[1], coordinates:[], text: resultsclean[i]["text"]});
         	}
         	}
         	//console.log(sitios);

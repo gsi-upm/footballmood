@@ -161,7 +161,8 @@
                       ]
                  }
             },
-            fields: ["text" , "polarity"]
+            stored_fields: ["text" , "polarity"],
+            _source:{}
           }
           }).then(function (resp) {
             var hits = resp.hits.hits;
@@ -170,7 +171,7 @@
             var aparitions = [];
             var aux = [];
             hits.forEach(function(entry) {
-              results.push(entry.fields);
+              results.push(entry._source);
             });
             
             //console.log(results);
@@ -178,13 +179,13 @@
             //console.log(that.playersarr);
 
             for(var j = 0; j<results.length; j++){
-                if( (results[j]["text"][0]).indexOf("Barça")>-1 || (results[j]["text"][0]).indexOf("FCB")>-1){
+                if( (results[j]["text"]).indexOf("Barça")>-1 || (results[j]["text"]).indexOf("FCB")>-1){
                   //console.log(that.playersarr[i], results[j]["text"][0]);
-                  arrteams.push({team: "Barça", polarity: results[j]["polarity"][0]});
+                  arrteams.push({team: "Barça", polarity: results[j]["polarity"]});
                 }
-                if((results[j]["text"][0]).indexOf("Atleti")>-1 || (results[j]["text"][0]).indexOf("ATM")>-1 || (results[j]["text"][0]).indexOf("Atlético")>-1 || (results[j]["text"][0]).indexOf("Atletico")>-1 ){
+                if((results[j]["text"]).indexOf("Atleti")>-1 || (results[j]["text"]).indexOf("ATM")>-1 || (results[j]["text"]).indexOf("Atlético")>-1 || (results[j]["text"]).indexOf("Atletico")>-1 ){
                   //console.log(that.playersarr[i], results[j]["text"][0]);
-                  arrteams.push({team: "Atleti", polarity: results[j]["polarity"][0]});
+                  arrteams.push({team: "Atleti", polarity: results[j]["polarity"]});
                 }
             }
             
@@ -252,7 +253,8 @@
                       ]
                  }
             },
-            fields: ["text" , "polarity"]
+            fields: ["text" , "polarity"],
+            _source: {}
           }
           }).then(function (resp) {
             var hits = resp.hits.hits;
@@ -261,7 +263,7 @@
             var aparitions = [];
             var aux = [];
             hits.forEach(function(entry) {
-              results.push(entry.fields);
+              results.push(entry._source);
             });
             
             //console.log(results);
@@ -270,9 +272,9 @@
 
             for(var i = 0; i<that.teamsarr.length; i++){
               for(var j = 0; j<results.length; j++){
-                if((results[j]["text"][0]).indexOf(that.teamsarr[i])>-1 && results[j]["polarity"][0] != 0){
+                if((results[j]["text"]).indexOf(that.teamsarr[i])>-1 && results[j]["polarity"] != 0){
                   //console.log(that.playersarr[i], results[j]["text"][0]);
-                  arrteams.push({team:that.teamsarr[i], polarity: results[j]["polarity"][0]});
+                  arrteams.push({team:that.teamsarr[i], polarity: results[j]["polarity"]});
                 }
               }
             }
